@@ -5,11 +5,11 @@ let inst = null;
 WebAssembly
     .instantiateStreaming(fetch("main.wasm"), go.importObject)
     .then((result) => {
-        inst = result.instance;
+        go.run(result.instance);
     });
 
 document
     .getElementById("runButton")
     .addEventListener('click', () => {
-        go.run(inst);
+        console.log(add(4, 5));
     });
