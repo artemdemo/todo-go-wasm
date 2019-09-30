@@ -2,7 +2,7 @@
 
 JS + wasm in go
 
-**GO WebAssembly**
+**Go WebAssembly**
 
 https://github.com/golang/go/wiki/WebAssembly
 
@@ -10,6 +10,6 @@ https://github.com/golang/go/wiki/WebAssembly
 
 * [Go WebAssembly Tutorial - Building a Calculator Tutorial](https://tutorialedge.net/golang/go-webassembly-tutorial/)
 
-**How to install GO**
+**How to install Go**
 
 https://golang.org/doc/install
