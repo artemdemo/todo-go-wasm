@@ -1,8 +1,37 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"syscall/js"
 )
+
+// ToDo is basic model of todo list
+type ToDo struct {
+	ID    int    `json:"id"`
+	Title string `json:"title"`
+	Done  bool   `json:"done"`
+}
+
+// ToDoList is list of ToDo structs
+type ToDoList []ToDo
+
+var toDoList ToDoList
+
+func initToDoList() {
+	toDoList = []ToDo{
+		ToDo{
+			ID:    1,
+			Title: "First title",
+			Done:  false,
+		},
+		ToDo{
+			ID:    2,
+			Title: "Second title",
+			Done:  false,
+		},
+	}
+}
 
 func add(this js.Value, args []js.Value) interface{} {
 	return js.ValueOf(
@@ -10,8 +39,20 @@ func add(this js.Value, args []js.Value) interface{} {
 	)
 }
 
+func getToDoList(this js.Value, args []js.Value) interface{} {
+	result, err := json.Marshal(toDoList)
+
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+
+	return js.ValueOf(string(result))
+}
+
 func registerCallbacks() {
 	js.Global().Set("add", js.FuncOf(add))
+	js.Global().Set("getToDoList", js.FuncOf(getToDoList))
 }
 
 func printToDOM(msg string) {
@@ -28,6 +69,7 @@ func main() {
 
 	printToDOM("WASM Go Initialized")
 
+	initToDoList()
 	registerCallbacks()
 
 	c <- true
