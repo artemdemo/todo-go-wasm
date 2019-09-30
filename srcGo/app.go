@@ -18,7 +18,7 @@ func printToDOM(msg string) {
 	document := js.Global().Get("document")
 	msgEl := document.Call("createElement", "p")
 	msgEl.Set("innerText", msg)
-	appLoggerEl := document.Call("getElementById", "app-logger")
+	appLoggerEl := document.Call("getElementsByClassName", "app-logger").Index(0)
 	appLoggerEl.Call("appendChild", msgEl)
 }
 
