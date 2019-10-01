@@ -10,7 +10,7 @@ import (
 
 func initToDoList() {
     model_addToDo("First title", false)
-    model_addToDo("Second title", false)
+    model_addToDo("Second title", true)
 }
 
 func addToDo(this js.Value, args []js.Value) interface{} {
@@ -86,6 +86,30 @@ func renderApp() {
     )
 }
 
+func renderTodoList() {
+    var todoListEls []htmlrender.ElementDef
+    for i := 0; i < len(toDoList); i++ {
+        todoListEls = append(
+            todoListEls,
+            htmlrender.ElementDef{
+                Tag: "div",
+                ClassName: fmt.Sprintf("todo-item-%d", toDoList[i].ID),
+                InnerText: toDoList[i].Title,
+            },
+        )
+    }
+    htmlrender.RenderElement(
+        getTodoListEL(),
+        htmlrender.CreateElement(
+            getDocumentEl(),
+            htmlrender.ElementDef{
+                Tag: "div",
+                Children: todoListEls,
+            },
+        ),
+    )
+}
+
 func main() {
     // Creating a channel will turn program into long-running one
     c := make(chan bool)
@@ -93,6 +117,7 @@ func main() {
     initToDoList()
     registerCallbacks()
     renderApp()
+    renderTodoList()
 
     logToDOM("WASM Go Initialized")
 
