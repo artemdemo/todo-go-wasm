@@ -59,23 +59,29 @@ func renderApp() {
             Tag: "div",
             Children: []htmlrender.ElementDef{
                 {
-                    Tag: "input",
-                    ID: "todo-title",
-                    ClassName: "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal mb-4",
-                },
-                {
-                    Tag: "button",
-                    ID: "submit-todo",
-                    ClassName: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
-                    InnerText: "Add ToDo",
+                    Tag: "div",
+                    ClassName: "mb-4",
+                    Children: []htmlrender.ElementDef{
+                        {
+                            Tag: "input",
+                            ID: "todo-title",
+                            ClassName: "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal mb-4",
+                        },
+                        {
+                            Tag: "button",
+                            ID: "submit-todo",
+                            ClassName: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+                            InnerText: "Add ToDo",
+                        },
+                    },
                 },
                 {
                     Tag: "div",
-                    ClassName: "todo-list",
+                    ClassName: "todo-list mb-5",
                 },
                 {
                     Tag: "div",
-                    ClassName: "app-logger my-4",
+                    ClassName: "app-logger rounded bg-gray-100 p-3 text-gray-500",
                 },
             },
         },
@@ -93,7 +99,10 @@ func renderTodoList() {
             todoListEls,
             htmlrender.ElementDef{
                 Tag: "div",
-                ClassName: fmt.Sprintf("todo-item-%d", toDoList[i].ID),
+                ClassName: fmt.Sprintf(
+                    "todo-item-%d p-2 border-b-2 border-gray-200",
+                    toDoList[i].ID,
+                ),
                 InnerText: toDoList[i].Title,
             },
         )
