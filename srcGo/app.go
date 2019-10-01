@@ -46,7 +46,9 @@ func printToDOM(msg string) {
         document,
         htmlrender.ElementDef{
             Tag: "p",
-            InnerText: msg,
+            Children: []htmlrender.ElementDef{
+                { InnerText: msg },
+            },
         },
     )
     appLoggerEl := htmlrender.GetFirstElementByClass(document, "app-logger")
