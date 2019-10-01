@@ -39,15 +39,17 @@ func registerCallbacks() {
 }
 
 func printToDOM(msg string) {
-    document = js.Global().Get("document")
+    if document.Type() == "undefined" {
+        document = js.Global().Get("document")
+    }
     msgEl := htmlrender.CreateElement(
         document,
         htmlrender.ElementDef{
             Tag: "p",
+            InnerText: msg,
         },
     )
-    msgEl.Set("innerText", msg)
-    appLoggerEl := document.Call("getElementsByClassName", "app-logger").Index(0)
+    appLoggerEl := htmlrender.GetFirstElementByClass(document, "app-logger")
     htmlrender.RenderElement(appLoggerEl, msgEl)
 }
 

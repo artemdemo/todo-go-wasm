@@ -8,12 +8,18 @@ import (
 type ElementDef struct {
     Tag       string
     ClassName string
+    // It's not a good approach, to have `InnerText` defined on `ElementDef`
+    // It makes it unclear how to use `children: []` property in the future
+    // The better solution will be to defined text element in `children: []`
+    // But I'll do it later
+    InnerText string
 }
 
 // CreateElement is creating DOM element based on ElementDef
 func CreateElement(document js.Value, elDef ElementDef) js.Value {
     el := document.Call("createElement", elDef.Tag)
     el.Call("setAttribute", "class", elDef.ClassName)
+    el.Set("innerText", elDef.InnerText)
     return el
 }
 
