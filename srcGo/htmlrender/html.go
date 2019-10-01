@@ -67,3 +67,8 @@ func CreateElement(document js.Value, elDef ElementDef) js.Value {
 func RenderElement(baseEl js.Value, el js.Value) {
     baseEl.Call("appendChild", el)
 }
+
+// ClearElementContent is clearing element content
+func ClearElementContent(el js.Value) {
+    el.Set("innerHtml", "")
+}

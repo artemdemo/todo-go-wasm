@@ -18,6 +18,7 @@ func addToDo(this js.Value, args []js.Value) interface{} {
     title := args[0].String()
     done := args[1].Truthy()
     model_addToDo(title, done)
+    renderTodoList()
     return true
 }
 
@@ -99,37 +100,46 @@ func renderApp() {
     )
 }
 
+func todoItemElementDef(id int, title string, done bool) htmlrender.ElementDef {
+    return htmlrender.ElementDef{
+        Tag: "div",
+        ClassName: fmt.Sprintf(
+            "todo-item todo-item-%d p-2 border-b-2 border-gray-200 flex justify-between",
+            id,
+        ),
+        Children: []htmlrender.ElementDef{
+            {
+                Tag: "span",
+                InnerText: title,
+            },
+            {
+                Tag: "button",
+                ClassName: "todo-delete bg-gray-500 hover:bg-gray-600 text-xs text-white py-1 px-2 rounded",
+                InnerText: "Delete",
+                Attributes: []htmlrender.ElementAttr{
+                    {
+                        Name: "data-todo-id",
+                        Content: strconv.Itoa(id),
+                    },
+                },
+            },
+        },
+    }
+}
+
 func renderTodoList() {
     var todoListEls []htmlrender.ElementDef
     for i := 0; i < len(toDoList); i++ {
         todoListEls = append(
             todoListEls,
-            htmlrender.ElementDef{
-                Tag: "div",
-                ClassName: fmt.Sprintf(
-                    "todo-item todo-item-%d p-2 border-b-2 border-gray-200 flex justify-between",
-                    toDoList[i].ID,
-                ),
-                Children: []htmlrender.ElementDef{
-                    {
-                        Tag: "span",
-                        InnerText: toDoList[i].Title,
-                    },
-                    {
-                        Tag: "button",
-                        ClassName: "todo-delete bg-gray-500 hover:bg-gray-600 text-xs text-white py-1 px-2 rounded",
-                        InnerText: "Delete",
-                        Attributes: []htmlrender.ElementAttr{
-                            {
-                                Name: "data-todo-id",
-                                Content: strconv.Itoa(toDoList[i].ID),
-                            },
-                        },
-                    },
-                },
-            },
+            todoItemElementDef(
+                toDoList[i].ID,
+                toDoList[i].Title,
+                toDoList[i].Done,
+            ),
         )
     }
+    htmlrender.ClearElementContent(getTodoListEL())
     htmlrender.RenderElement(
         getTodoListEL(),
         htmlrender.CreateElement(
