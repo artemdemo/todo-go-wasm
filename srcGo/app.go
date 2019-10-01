@@ -16,6 +16,7 @@ func initToDoList() {
 
 func addToDo(this js.Value, args []js.Value) interface{} {
     title := getTitleInputEl().Get("value").String()
+    getTitleInputEl().Set("value", "")
     done := false
     id := model_addToDo(title, done)
     htmlrender.RenderElement(
