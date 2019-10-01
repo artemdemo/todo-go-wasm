@@ -24,7 +24,6 @@ func addToDo(this js.Value, args []js.Value) interface{} {
     getTitleInputEl().Set("value", "")
     toDoItem := toDoList.AddTodoItem(title, false)
     todoListRenderer.AppendTodoItem(getDocumentEl(), toDoItem)
-    fmt.Println(toDoList.GetItemsJson())
     return true
 }
 
@@ -61,7 +60,7 @@ func logToDOM(msg string) {
 
 func renderApp() {
     document := getDocumentEl()
-    btnEl := htmlrender.CreateElement(
+    baseAppEl := htmlrender.CreateElement(
         document,
         htmlrender.ElementDef{
             Tag: "div",
@@ -77,7 +76,7 @@ func renderApp() {
     )
     htmlrender.RenderElement(
         htmlrender.GetElementById(document, "app"),
-        btnEl,
+        baseAppEl,
     )
 }
 
