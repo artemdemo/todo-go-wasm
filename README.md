@@ -6,6 +6,15 @@ JS + wasm in go
 
 https://github.com/golang/go/wiki/WebAssembly
 
+**Configure IntelliJ IDEA**
+
+IntelliJ IDEA -> Preferences -> Languages & Frameworks -> Go -> Build Tags & Vendoring
+
+OS: js
+Arch: wasm
+
+https://github.com/golang/go/wiki/Configuring-GoLand-for-WebAssembly
+
 **Go Wasm tutorials**
 
 * [Go WebAssembly Tutorial - Building a Calculator Tutorial](https://tutorialedge.net/golang/go-webassembly-tutorial/)
