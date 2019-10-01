@@ -3,6 +3,7 @@ package main
 import (
     "encoding/json"
     "fmt"
+    "strconv"
     "syscall/js"
 
     "./htmlrender"
@@ -66,6 +67,12 @@ func renderApp() {
                             Tag: "input",
                             ID: "todo-title",
                             ClassName: "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal mb-4",
+                            Attributes: []htmlrender.ElementAttr{
+                                {
+                                    Name: "placeholder",
+                                    Content: "Title",
+                                },
+                            },
                         },
                         {
                             Tag: "button",
@@ -100,7 +107,7 @@ func renderTodoList() {
             htmlrender.ElementDef{
                 Tag: "div",
                 ClassName: fmt.Sprintf(
-                    "todo-item-%d p-2 border-b-2 border-gray-200 flex justify-between",
+                    "todo-item todo-item-%d p-2 border-b-2 border-gray-200 flex justify-between",
                     toDoList[i].ID,
                 ),
                 Children: []htmlrender.ElementDef{
@@ -110,8 +117,14 @@ func renderTodoList() {
                     },
                     {
                         Tag: "button",
-                        ClassName: "bg-gray-500 hover:bg-gray-600 text-xs text-white py-1 px-2 rounded",
+                        ClassName: "todo-delete bg-gray-500 hover:bg-gray-600 text-xs text-white py-1 px-2 rounded",
                         InnerText: "Delete",
+                        Attributes: []htmlrender.ElementAttr{
+                            {
+                                Name: "data-todo-id",
+                                Content: strconv.Itoa(toDoList[i].ID),
+                            },
+                        },
                     },
                 },
             },

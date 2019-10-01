@@ -4,15 +4,24 @@ import (
     "syscall/js"
 )
 
+// ElementAttr is an DOM element attribute
+type ElementAttr struct {
+    Name    string
+    Content string
+}
+
 // ElementDef is DOM element definition
 type ElementDef struct {
-    Tag       string
-    ClassName string
-    ID        string
+    Tag        string
+    ClassName  string
+    ID         string
     // InnerText, has higher priority than Children
     // In case user passed both, then InnerText will be rendered and Children will be ignored
-    InnerText string
-    Children  []ElementDef
+    InnerText  string
+    // Attributes will override ClassName and ID
+    // (in case user used theme here as well)
+    Attributes []ElementAttr
+    Children   []ElementDef
 }
 
 // CreateElement is creating DOM element based on ElementDef
@@ -27,6 +36,13 @@ func CreateElement(document js.Value, elDef ElementDef) js.Value {
         }
         if elDef.ID != "" {
             el.Call("setAttribute", "id", elDef.ID)
+        }
+        if len(elDef.Attributes) > 0 {
+            attributesAmount := len(elDef.Attributes)
+            for i := 0; i < attributesAmount; i++ {
+                attr := elDef.Attributes[i]
+                el.Call("setAttribute", attr.Name, attr.Content)
+            }
         }
         // If there are both Tag name and InnerText
         // then innerText will come before Children
