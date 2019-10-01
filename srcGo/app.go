@@ -3,10 +3,10 @@ package main
 import (
     "encoding/json"
     "fmt"
-    "strconv"
     "syscall/js"
 
     "./htmlrender"
+    "./ui"
 )
 
 func initToDoList() {
@@ -18,12 +18,12 @@ func addToDo(this js.Value, args []js.Value) interface{} {
     title := getTitleInputEl().Get("value").String()
     getTitleInputEl().Set("value", "")
     done := false
-    id := model_addToDo(title, done)
+    toDoItem := model_addToDo(title, done)
     htmlrender.RenderElement(
         getTodoListEL(),
         htmlrender.CreateElement(
             getDocumentEl(),
-            todoItemElementDef(id, title, done),
+            toDoItem.GetElementDef(),
         ),
     )
     return true
@@ -107,43 +107,17 @@ func renderApp() {
     )
 }
 
-func todoItemElementDef(id int, title string, done bool) htmlrender.ElementDef {
-    return htmlrender.ElementDef{
-        Tag: "div",
-        ClassName: fmt.Sprintf(
-            "todo-item todo-item-%d p-2 border-b-2 border-gray-200 flex justify-between",
-            id,
-        ),
-        Children: []htmlrender.ElementDef{
-            {
-                Tag: "span",
-                InnerText: title,
-            },
-            {
-                Tag: "button",
-                ClassName: "todo-delete bg-gray-500 hover:bg-gray-600 text-xs text-white py-1 px-2 rounded",
-                InnerText: "Delete",
-                Attributes: []htmlrender.ElementAttr{
-                    {
-                        Name: "data-todo-id",
-                        Content: strconv.Itoa(id),
-                    },
-                },
-            },
-        },
-    }
-}
-
 func renderTodoList() {
     var todoListEls []htmlrender.ElementDef
     for i := 0; i < len(toDoList); i++ {
+        toDoItem := ui.ToDoItem{
+            ID: toDoList[i].ID,
+            Title: toDoList[i].Title,
+            Done: toDoList[i].Done,
+        }
         todoListEls = append(
             todoListEls,
-            todoItemElementDef(
-                toDoList[i].ID,
-                toDoList[i].Title,
-                toDoList[i].Done,
-            ),
+            toDoItem.GetElementDef(),
         )
     }
     htmlrender.ClearElementContent(getTodoListEL())
