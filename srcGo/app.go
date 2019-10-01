@@ -9,9 +9,7 @@ import (
     "./models"
 )
 
-var toDoList = models.ToDoList{
-    Items: []models.ToDoItem{},
-}
+var toDoList = models.ToDoList{}
 
 var form = models.Form{}
 
