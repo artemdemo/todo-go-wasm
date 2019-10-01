@@ -3,13 +3,13 @@ const go = new Go();
 let inst = null;
 
 WebAssembly
-    .instantiateStreaming(fetch("main.wasm"), go.importObject)
+    .instantiateStreaming(fetch('main.wasm'), go.importObject)
     .then((result) => {
         go.run(result.instance);
     });
 
 document
-    .getElementById("runButton")
+    .getElementById('runButton')
     .addEventListener('click', () => {
-        console.log(add(4, 5));
+        console.log(addToDo('test title', true));
     });

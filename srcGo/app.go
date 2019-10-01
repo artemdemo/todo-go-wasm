@@ -6,37 +6,16 @@ import (
 	"syscall/js"
 )
 
-// ToDo is basic model of todo list
-type ToDo struct {
-	ID    int    `json:"id"`
-	Title string `json:"title"`
-	Done  bool   `json:"done"`
-}
-
-// ToDoList is list of ToDo structs
-type ToDoList []ToDo
-
-var toDoList ToDoList
-
 func initToDoList() {
-	toDoList = []ToDo{
-		ToDo{
-			ID:    1,
-			Title: "First title",
-			Done:  false,
-		},
-		ToDo{
-			ID:    2,
-			Title: "Second title",
-			Done:  false,
-		},
-	}
+	model_addToDo("First title", false)
+	model_addToDo("Second title", false)
 }
 
-func add(this js.Value, args []js.Value) interface{} {
-	return js.ValueOf(
-		args[0].Int() + args[1].Int(),
-	)
+func addToDo(this js.Value, args []js.Value) interface{} {
+	var title = args[0].String()
+	var done = args[1].Truthy()
+	model_addToDo(title, done)
+	return true
 }
 
 func getToDoList(this js.Value, args []js.Value) interface{} {
@@ -51,7 +30,7 @@ func getToDoList(this js.Value, args []js.Value) interface{} {
 }
 
 func registerCallbacks() {
-	js.Global().Set("add", js.FuncOf(add))
+	js.Global().Set("addToDo", js.FuncOf(addToDo))
 	js.Global().Set("getToDoList", js.FuncOf(getToDoList))
 }
 
