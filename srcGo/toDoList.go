@@ -4,15 +4,14 @@ import (
     "./models"
 )
 
-// ToDoList is list of ToDo structs
-type ToDoList []models.ToDoItem
+var toDoList = models.ToDoList{
+    Items: []models.ToDoItem{},
+}
 
-var toDoList ToDoList
-
-func model_addToDo(title string, done bool) models.ToDoItem {
+func addToDoItem(title string, done bool) models.ToDoItem {
     lastTodoId := 0
-    if len(toDoList) > 0 {
-        lastTodo := toDoList[len(toDoList) - 1]
+    if len(toDoList.Items) > 0 {
+        lastTodo := toDoList.Items[len(toDoList.Items) - 1]
         lastTodoId = lastTodo.ID
     }
     id := lastTodoId + 1
@@ -21,6 +20,6 @@ func model_addToDo(title string, done bool) models.ToDoItem {
         Title: title,
         Done: done,
     }
-    toDoList = append(toDoList, toDoItem)
+    toDoList.AddTodoItem(toDoItem)
     return toDoItem
 }

@@ -1,11 +1,30 @@
 package models
 
 import (
+    "encoding/json"
+    "fmt"
+    "syscall/js"
+
    "../htmlrender"
 )
 
 type ToDoList struct {
     Items []ToDoItem
+}
+
+func (todoList *ToDoList) AddTodoItem(toDoItem ToDoItem) {
+    todoList.Items = append(todoList.Items, toDoItem)
+}
+
+func (todoList ToDoList) GetItemsJson() interface{} {
+    result, err := json.Marshal(todoList.Items)
+
+    if err != nil {
+        fmt.Println(err)
+        return ""
+    }
+
+    return js.ValueOf(string(result))
 }
 
 func (todoList ToDoList) GetElementDef() htmlrender.ElementDef {
