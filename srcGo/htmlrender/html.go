@@ -8,13 +8,11 @@ import (
 type ElementDef struct {
     Tag       string
     ClassName string
-    ID string
-    // It's not a good approach, to have `InnerText` defined on `ElementDef`
-    // It makes it unclear how to use `children: []` property in the future
-    // The better solution will be to defined text element in `children: []`
-    // But I'll do it later
+    ID        string
+    // InnerText, has higher priority than Children
+    // In case user passed both, then InnerText will be rendered and Children will be ignored
     InnerText string
-    Children []ElementDef
+    Children  []ElementDef
 }
 
 // CreateElement is creating DOM element based on ElementDef
