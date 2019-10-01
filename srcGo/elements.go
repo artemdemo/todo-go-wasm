@@ -9,6 +9,7 @@ import (
 var _documentEL js.Value
 var _appLoggerEL js.Value
 var _todoListEL js.Value
+var _titleInputEl js.Value
 
 func getDocumentEl() js.Value {
     if _documentEL.Type() == js.TypeUndefined {
@@ -31,4 +32,12 @@ func getTodoListEL() js.Value {
         _todoListEL = htmlrender.GetFirstElementByClass(documentEl, "todo-list")
     }
     return _todoListEL
+}
+
+func getTitleInputEl() js.Value {
+    if _titleInputEl.Type() == js.TypeUndefined {
+        documentEl := getDocumentEl()
+        _titleInputEl = htmlrender.GetElementById(documentEl, "todo-title")
+    }
+    return _titleInputEl
 }

@@ -15,10 +15,16 @@ func initToDoList() {
 }
 
 func addToDo(this js.Value, args []js.Value) interface{} {
-    title := args[0].String()
-    done := args[1].Truthy()
-    model_addToDo(title, done)
-    renderTodoList()
+    title := getTitleInputEl().Get("value").String()
+    done := false
+    id := model_addToDo(title, done)
+    htmlrender.RenderElement(
+        getTodoListEL(),
+        htmlrender.CreateElement(
+            getDocumentEl(),
+            todoItemElementDef(id, title, done),
+        ),
+    )
     return true
 }
 
