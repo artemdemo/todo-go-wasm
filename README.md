@@ -10,8 +10,10 @@ https://github.com/golang/go/wiki/WebAssembly
 
 IntelliJ IDEA -> Preferences -> Languages & Frameworks -> Go -> Build Tags & Vendoring
 
+```
 OS: js
 Arch: wasm
+```
 
 https://github.com/golang/go/wiki/Configuring-GoLand-for-WebAssembly
 
