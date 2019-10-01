@@ -100,10 +100,20 @@ func renderTodoList() {
             htmlrender.ElementDef{
                 Tag: "div",
                 ClassName: fmt.Sprintf(
-                    "todo-item-%d p-2 border-b-2 border-gray-200",
+                    "todo-item-%d p-2 border-b-2 border-gray-200 flex justify-between",
                     toDoList[i].ID,
                 ),
-                InnerText: toDoList[i].Title,
+                Children: []htmlrender.ElementDef{
+                    {
+                        Tag: "span",
+                        InnerText: toDoList[i].Title,
+                    },
+                    {
+                        Tag: "button",
+                        ClassName: "bg-gray-500 hover:bg-gray-600 text-xs text-white py-1 px-2 rounded",
+                        InnerText: "Delete",
+                    },
+                },
             },
         )
     }
