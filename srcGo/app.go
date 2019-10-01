@@ -7,11 +7,12 @@ import (
 
     "./htmlrender"
     "./models"
+    "./renderers"
 )
 
 var toDoList = models.ToDoList{}
-
 var form = models.Form{}
+var todoListRenderer = renderers.TodoListRenderer{}
 
 func initToDoList() {
     toDoList.AddTodoItem("First title", false)
@@ -22,13 +23,8 @@ func addToDo(this js.Value, args []js.Value) interface{} {
     title := getTitleInputEl().Get("value").String()
     getTitleInputEl().Set("value", "")
     toDoItem := toDoList.AddTodoItem(title, false)
-    htmlrender.RenderElement(
-        getTodoListEL(),
-        htmlrender.CreateElement(
-            getDocumentEl(),
-            toDoItem.GetElementDef(),
-        ),
-    )
+    todoListRenderer.AppendTodoItem(getDocumentEl(), toDoItem)
+    fmt.Println(toDoList.GetItemsJson())
     return true
 }
 
@@ -71,10 +67,7 @@ func renderApp() {
             Tag: "div",
             Children: []htmlrender.ElementDef{
                 form.GetElementDef(),
-                {
-                    Tag: "div",
-                    ClassName: "todo-list mb-5",
-                },
+                todoListRenderer.GetBaseElDef(),
                 {
                     Tag: "div",
                     ClassName: "app-logger rounded bg-gray-100 p-3 text-gray-500",
@@ -89,14 +82,7 @@ func renderApp() {
 }
 
 func renderTodoList() {
-    htmlrender.ClearElementContent(getTodoListEL())
-    htmlrender.RenderElement(
-        getTodoListEL(),
-        htmlrender.CreateElement(
-            getDocumentEl(),
-            toDoList.GetElementDef(),
-        ),
-    )
+    todoListRenderer.RenderTodoList(getDocumentEl(), toDoList)
 }
 
 func main() {
