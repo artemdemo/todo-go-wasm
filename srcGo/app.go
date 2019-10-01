@@ -6,7 +6,7 @@ import (
     "syscall/js"
 
     "./htmlrender"
-    "./ui"
+    "./models"
 )
 
 func initToDoList() {
@@ -110,7 +110,7 @@ func renderApp() {
 func renderTodoList() {
     var todoListEls []htmlrender.ElementDef
     for i := 0; i < len(toDoList); i++ {
-        toDoItem := ui.ToDoItem{
+        toDoItem := models.ToDoItem{
             ID: toDoList[i].ID,
             Title: toDoList[i].Title,
             Done: toDoList[i].Done,
