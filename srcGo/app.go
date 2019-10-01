@@ -8,8 +8,6 @@ import (
     "./htmlrender"
 )
 
-var document js.Value
-
 func initToDoList() {
     model_addToDo("First title", false)
     model_addToDo("Second title", false)
@@ -39,9 +37,7 @@ func registerCallbacks() {
 }
 
 func printToDOM(msg string) {
-    if document.Type() == js.TypeUndefined {
-       document = js.Global().Get("document")
-    }
+    document := getDocumentEl()
     msgEl := htmlrender.CreateElement(
         document,
         htmlrender.ElementDef{
@@ -56,12 +52,24 @@ func printToDOM(msg string) {
 }
 
 func renderForm() {
+    document := getDocumentEl()
     btnEl := htmlrender.CreateElement(
         document,
         htmlrender.ElementDef{
-            Tag: "button",
-            ID: "submit-todo",
-            InnerText: "Add ToDo",
+            Tag: "div",
+            Children: []htmlrender.ElementDef{
+                {
+                    Tag: "input",
+                    ID: "todo-title",
+                    ClassName: "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal mb-4",
+                },
+                {
+                    Tag: "button",
+                    ID: "submit-todo",
+                    ClassName: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+                    InnerText: "Add ToDo",
+                },
+            },
         },
     )
     htmlrender.RenderElement(
@@ -74,11 +82,11 @@ func main() {
     // Creating a channel will turn program into long-running one
     c := make(chan bool)
 
-    printToDOM("WASM Go Initialized")
-
     initToDoList()
     registerCallbacks()
     renderForm()
+
+    printToDOM("WASM Go Initialized")
 
     c <- true
 }

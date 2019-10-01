@@ -11,8 +11,8 @@ WebAssembly
         );
     });
 
-document
-    .getElementById('runButton')
-    .addEventListener('click', () => {
-        console.log(addToDo('test title', true));
-    });
+// document
+//     .getElementById('runButton')
+//     .addEventListener('click', () => {
+//         console.log(addToDo('test title', true));
+//     });
