@@ -39,8 +39,8 @@ func registerCallbacks() {
 }
 
 func printToDOM(msg string) {
-    if document.Type() == "undefined" {
-        document = js.Global().Get("document")
+    if document.Type() == js.TypeUndefined {
+       document = js.Global().Get("document")
     }
     msgEl := htmlrender.CreateElement(
         document,
