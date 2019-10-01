@@ -36,22 +36,22 @@ func registerCallbacks() {
     js.Global().Set("getToDoList", js.FuncOf(getToDoList))
 }
 
-func printToDOM(msg string) {
-    document := getDocumentEl()
-    msgEl := htmlrender.CreateElement(
-        document,
-        htmlrender.ElementDef{
-            Tag: "p",
-            Children: []htmlrender.ElementDef{
-                { InnerText: msg },
+func logToDOM(msg string) {
+    htmlrender.RenderElement(
+        getAppLoggerEl(),
+        htmlrender.CreateElement(
+            getDocumentEl(),
+            htmlrender.ElementDef{
+                Tag: "p",
+                Children: []htmlrender.ElementDef{
+                    { InnerText: msg },
+                },
             },
-        },
+        ),
     )
-    appLoggerEl := htmlrender.GetFirstElementByClass(document, "app-logger")
-    htmlrender.RenderElement(appLoggerEl, msgEl)
 }
 
-func renderForm() {
+func renderApp() {
     document := getDocumentEl()
     btnEl := htmlrender.CreateElement(
         document,
@@ -68,6 +68,10 @@ func renderForm() {
                     ID: "submit-todo",
                     ClassName: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
                     InnerText: "Add ToDo",
+                },
+                {
+                    Tag: "div",
+                    ClassName: "todo-list",
                 },
                 {
                     Tag: "div",
@@ -88,9 +92,9 @@ func main() {
 
     initToDoList()
     registerCallbacks()
-    renderForm()
+    renderApp()
 
-    printToDOM("WASM Go Initialized")
+    logToDOM("WASM Go Initialized")
 
     c <- true
 }
