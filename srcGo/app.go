@@ -108,27 +108,15 @@ func renderApp() {
 }
 
 func renderTodoList() {
-    var todoListEls []htmlrender.ElementDef
-    for i := 0; i < len(toDoList); i++ {
-        toDoItem := models.ToDoItem{
-            ID: toDoList[i].ID,
-            Title: toDoList[i].Title,
-            Done: toDoList[i].Done,
-        }
-        todoListEls = append(
-            todoListEls,
-            toDoItem.GetElementDef(),
-        )
+    toDoList := models.ToDoList{
+        Items: toDoList,
     }
     htmlrender.ClearElementContent(getTodoListEL())
     htmlrender.RenderElement(
         getTodoListEL(),
         htmlrender.CreateElement(
             getDocumentEl(),
-            htmlrender.ElementDef{
-                Tag: "div",
-                Children: todoListEls,
-            },
+            toDoList.GetElementDef(),
         ),
     )
 }
