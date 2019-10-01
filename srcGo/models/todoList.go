@@ -12,8 +12,19 @@ type ToDoList struct {
     Items []ToDoItem
 }
 
-func (todoList *ToDoList) AddTodoItem(toDoItem ToDoItem) {
-    todoList.Items = append(todoList.Items, toDoItem)
+func (todoList *ToDoList) AddTodoItem(title string, done bool) ToDoItem {
+    lastTodoId := -1
+    if len(todoList.Items) > 0 {
+        lastTodo := todoList.Items[len(todoList.Items) - 1]
+        lastTodoId = lastTodo.ID
+    }
+    todoItem := ToDoItem{
+        ID:    lastTodoId + 1,
+        Title: title,
+        Done:  done,
+    }
+    todoList.Items = append(todoList.Items, todoItem)
+    return todoItem
 }
 
 func (todoList ToDoList) GetItemsJson() interface{} {

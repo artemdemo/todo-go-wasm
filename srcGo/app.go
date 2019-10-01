@@ -6,18 +6,23 @@ import (
     "syscall/js"
 
     "./htmlrender"
+    "./models"
 )
 
+var toDoList = models.ToDoList{
+    Items: []models.ToDoItem{},
+}
+
 func initToDoList() {
-    addToDoItem("First title", false)
-    addToDoItem("Second title", true)
+    toDoList.AddTodoItem("First title", false)
+    toDoList.AddTodoItem("Second title", true)
 }
 
 func addToDo(this js.Value, args []js.Value) interface{} {
     title := getTitleInputEl().Get("value").String()
     getTitleInputEl().Set("value", "")
     done := false
-    toDoItem := addToDoItem(title, done)
+    toDoItem := toDoList.AddTodoItem(title, done)
     htmlrender.RenderElement(
         getTodoListEL(),
         htmlrender.CreateElement(
