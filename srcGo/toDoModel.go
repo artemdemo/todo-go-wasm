@@ -13,7 +13,12 @@ type ToDoList []ToDo
 var toDoList ToDoList
 
 func model_addToDo(title string, done bool) int {
-    id := len(toDoList) + 1;
+    lastTodoId := 0
+    if len(toDoList) > 0 {
+        lastTodo := toDoList[len(toDoList) - 1]
+        lastTodoId = lastTodo.ID
+    }
+    id := lastTodoId + 1
     toDoList = append(toDoList, ToDo{
         ID:    id,
         Title: title,
