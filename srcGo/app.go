@@ -53,6 +53,21 @@ func printToDOM(msg string) {
     htmlrender.RenderElement(appLoggerEl, msgEl)
 }
 
+func renderForm() {
+    btnEl := htmlrender.CreateElement(
+        document,
+        htmlrender.ElementDef{
+            Tag: "button",
+            ID: "submit-todo",
+            InnerText: "Add ToDo",
+        },
+    )
+    htmlrender.RenderElement(
+        htmlrender.GetElementById(document, "app"),
+        btnEl,
+    )
+}
+
 func main() {
     // Creating a channel will turn program into long-running one
     c := make(chan bool)
@@ -61,6 +76,7 @@ func main() {
 
     initToDoList()
     registerCallbacks()
+    renderForm()
 
     c <- true
 }
