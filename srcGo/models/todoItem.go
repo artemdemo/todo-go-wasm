@@ -3,6 +3,7 @@ package models
 import (
     "fmt"
     "strconv"
+    "syscall/js"
 
     "../htmlrender"
 )
@@ -13,7 +14,14 @@ type ToDoItem struct {
     Done  bool   `json:"done"`
 }
 
-func (toDoItem ToDoItem) Delete() {}
+func (toDoItem ToDoItem) getItemEl(baseEl js.Value) js.Value {
+    return htmlrender.GetFirstElementByClass(
+        baseEl,
+        fmt.Sprintf("todo-item-%d", toDoItem.ID),
+    )
+}
+
+func (toDoItem ToDoItem) Delete(baseEl js.Value) {}
 
 func (toDoItem ToDoItem) GetElementDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
