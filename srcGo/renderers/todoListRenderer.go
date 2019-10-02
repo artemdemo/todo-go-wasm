@@ -38,13 +38,17 @@ func (todoListRenderer TodoListRenderer) RenderTodoList(documentEl js.Value,
     )
 }
 
+// AppendTodoItem is adding item to the DOM.
+// And setting link to the corresponded DOM element.
 func (todoListRenderer TodoListRenderer) AppendTodoItem(documentEl js.Value,
-                                                        todoItem models.ToDoItem) {
-    htmlrender.RenderElement(
-        todoListRenderer.getTodoListEL(documentEl),
-        htmlrender.CreateElement(
-            documentEl,
-            todoItem.GetElementDef(),
-        ),
-    )
+                                                        todoItem *models.ToDoItem) {
+   itemEl := htmlrender.CreateElement(
+       documentEl,
+       todoItem.GetElementDef(),
+   )
+   todoItem.SetEl(itemEl)
+   htmlrender.RenderElement(
+       todoListRenderer.getTodoListEL(documentEl),
+       itemEl,
+   )
 }

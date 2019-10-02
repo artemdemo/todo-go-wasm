@@ -12,6 +12,10 @@ type ToDoItem struct {
     ID    int    `json:"id"`
     Title string `json:"title"`
     Done  bool   `json:"done"`
+    // Each item will have link to corresponded DOM element
+    // It's not efficient!
+    // But I wanted to test how it will work and to play with pointers
+    el    js.Value
 }
 
 func (toDoItem ToDoItem) getItemEl(baseEl js.Value) js.Value {
@@ -22,6 +26,10 @@ func (toDoItem ToDoItem) getItemEl(baseEl js.Value) js.Value {
 }
 
 func (toDoItem ToDoItem) Delete(baseEl js.Value) {}
+
+func (toDoItem *ToDoItem) SetEl(el js.Value) {
+    toDoItem.el = el
+}
 
 func (toDoItem ToDoItem) GetElementDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{

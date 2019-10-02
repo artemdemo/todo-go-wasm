@@ -12,7 +12,10 @@ type ToDoList struct {
     items []ToDoItem
 }
 
-func (todoList *ToDoList) AddTodoItem(title string, done bool) ToDoItem {
+// AddTodoItem is adding ToDoItem to the list of items
+// It will return pointer to the item.
+// This way user could add link to the DOM element later.
+func (todoList *ToDoList) AddTodoItem(title string, done bool) *ToDoItem {
     lastTodoId := -1
     if len(todoList.items) > 0 {
         lastTodo := todoList.items[len(todoList.items) - 1]
@@ -24,7 +27,7 @@ func (todoList *ToDoList) AddTodoItem(title string, done bool) ToDoItem {
         Done:  done,
     }
     todoList.items = append(todoList.items, todoItem)
-    return todoItem
+    return &todoItem
 }
 
 func (todoList ToDoList) GetItemsJson() interface{} {
