@@ -24,7 +24,7 @@ func addToDo(this js.Value, args []js.Value) interface{} {
         formRenderer.GetTitle(getDocumentEl()),
         false,
     )
-    formRenderer.ClearTitleInput(getDocumentEl())
+    formRenderer.ClearTitleInput()
     todoListRenderer.AppendTodoItem(getDocumentEl(), toDoItem)
     return true
 }

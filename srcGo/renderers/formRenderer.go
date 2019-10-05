@@ -37,8 +37,13 @@ func (formRenderer *FormRenderer) getTitleInputEl(baseEl js.Value) js.Value {
     return formRenderer.titleInputEl
 }
 
-func (formRenderer *FormRenderer) ClearTitleInput(baseEl js.Value) {
-    formRenderer.getTitleInputEl(baseEl).Set("value", "")
+func (formRenderer *FormRenderer) ClearTitleInput(params ...js.Value) {
+    if len(params) == 0 {
+        formRenderer.titleInputEl.Set("value", "")
+    } else {
+        baseEl := params[0]
+        formRenderer.getTitleInputEl(baseEl).Set("value", "")
+    }
 }
 
 func (formRenderer *FormRenderer) GetTitle(baseEl js.Value) string {
