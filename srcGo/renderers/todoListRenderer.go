@@ -12,23 +12,23 @@ type TodoListRenderer struct {
     todoListParentEl js.Value
 }
 
-func (todoListRenderer *TodoListRenderer) getTodoListParentEL(baseEl js.Value) js.Value {
-    if todoListRenderer.todoListParentEl.Type() == js.TypeUndefined {
-        todoListRenderer.todoListParentEl = htmlrender.GetFirstElementByClass(baseEl, "todo-list")
+func (this *TodoListRenderer) getTodoListParentEL(baseEl js.Value) js.Value {
+    if this.todoListParentEl.Type() == js.TypeUndefined {
+        this.todoListParentEl = htmlrender.GetFirstElementByClass(baseEl, "todo-list")
     }
-    return todoListRenderer.todoListParentEl
+    return this.todoListParentEl
 }
 
-func (todoListRenderer TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
+func (this TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
         Tag: "div",
         ClassName: "todo-list mb-5",
     }
 }
 
-func (todoListRenderer *TodoListRenderer) RenderTodoList(documentEl js.Value,
+func (this *TodoListRenderer) RenderTodoList(documentEl js.Value,
                                                          todoList models.ToDoList) {
-    todoListParentEl := todoListRenderer.getTodoListParentEL(documentEl)
+    todoListParentEl := this.getTodoListParentEL(documentEl)
     htmlrender.ClearElementContent(todoListParentEl)
     htmlrender.RenderElement(
         todoListParentEl,
@@ -41,7 +41,7 @@ func (todoListRenderer *TodoListRenderer) RenderTodoList(documentEl js.Value,
 
 // AppendTodoItem is adding item to the DOM.
 // And setting link to the corresponded DOM element.
-func (todoListRenderer *TodoListRenderer) AppendTodoItem(documentEl js.Value,
+func (this *TodoListRenderer) AppendTodoItem(documentEl js.Value,
                                                          todoItem *models.ToDoItem) {
    itemEl := htmlrender.CreateElement(
        documentEl,
@@ -49,7 +49,7 @@ func (todoListRenderer *TodoListRenderer) AppendTodoItem(documentEl js.Value,
    )
    todoItem.SetEl(itemEl)
    htmlrender.RenderElement(
-       todoListRenderer.getTodoListParentEL(documentEl),
+       this.getTodoListParentEL(documentEl),
        itemEl,
    )
 }
