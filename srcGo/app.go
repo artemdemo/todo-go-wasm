@@ -1,6 +1,7 @@
 package main
 
 import (
+    "fmt"
     "syscall/js"
 
     "./htmlrender"
@@ -19,7 +20,7 @@ func initToDoList() {
     toDoList.AddTodoItem("Second title", true)
 }
 
-func addToDo(this js.Value, args []js.Value) interface{} {
+func addTodo(this js.Value, args []js.Value) interface{} {
     toDoItem := toDoList.AddTodoItem(
         formRenderer.GetTitle(),
         false,
@@ -29,8 +30,13 @@ func addToDo(this js.Value, args []js.Value) interface{} {
     return true
 }
 
+func deleteTodo(todoId int) {
+    fmt.Println("deleteTodo", todoId)
+}
+
 func registerCallbacks() {
-    formRenderer.OnSubmitCb(addToDo)
+    formRenderer.OnSubmitCb(addTodo)
+    todoListRenderer.OnDelete(deleteTodo)
 }
 
 func logToDOM(msg string) {

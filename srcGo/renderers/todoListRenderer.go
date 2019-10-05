@@ -1,6 +1,8 @@
 package renderers
 
 import (
+    "fmt"
+    "strings"
     "syscall/js"
 
     "../htmlrender"
@@ -10,12 +12,28 @@ import (
 type TodoListRenderer struct {
     // "todoListParentEl" is parent element where to-do list itself will be rendered
     todoListParentEl js.Value
+    onDeleteCb       func(todoId int)
 }
 
 func NewTodoListRender(documentEl js.Value) *TodoListRenderer {
     todoListR := new(TodoListRenderer)
     todoListR.todoListParentEl = htmlrender.GetFirstElementByClass(documentEl, "todo-list")
     return todoListR
+}
+
+func (this *TodoListRenderer) clickOnTodoList(_this js.Value, args []js.Value) interface{} {
+    target := args[0].Get("target")
+    className := target.Get("className").String()
+    if strings.Contains(className, "todo-delete") {
+        todoId := target.Get("dataset").Get("todoId").String()
+        fmt.Println("Delete", todoId)
+        this.onDeleteCb(10)
+    }
+    return ""
+}
+
+func (this *TodoListRenderer) OnDelete(cb func(todoId int)) {
+    this.onDeleteCb = cb
 }
 
 func (this *TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
@@ -35,6 +53,7 @@ func (this *TodoListRenderer) RenderTodoList(documentEl js.Value,
             todoList.GetElementDef(),
         ),
     )
+    this.todoListParentEl.Call("addEventListener", "click", js.FuncOf(this.clickOnTodoList))
 }
 
 // AppendTodoItem is adding item to the DOM.
