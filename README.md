@@ -1,6 +1,6 @@
 # todo-go-wasm
 
-JS + wasm in Go
+JS + wasm in Go (1.13.1)
 
 *Disclaimer:* It's not an example of how it should be done.
 My goal was to play with wasm API in Go and to implement as much logic as I can in wasm.
