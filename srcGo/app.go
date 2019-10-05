@@ -10,7 +10,9 @@ import (
 
 var toDoList = models.ToDoList{}
 var form = models.Form{}
+
 var todoListRenderer = renderers.TodoListRenderer{}
+var formRenderer = renderers.FormRenderer{}
 
 func initToDoList() {
     toDoList.AddTodoItem("First title", false)
@@ -51,7 +53,7 @@ func renderApp() {
         htmlrender.ElementDef{
             Tag: "div",
             Children: []htmlrender.ElementDef{
-                form.GetElementDef(),
+                formRenderer.GetBaseElDef(),
                 todoListRenderer.GetBaseElDef(),
                 {
                     Tag: "div",
@@ -66,6 +68,10 @@ func renderApp() {
     )
 }
 
+func renderForm() {
+    formRenderer.RenderForm(getDocumentEl(), form)
+}
+
 func renderTodoList() {
     todoListRenderer.RenderTodoList(getDocumentEl(), toDoList)
 }
@@ -77,6 +83,7 @@ func main() {
     initToDoList()
     registerCallbacks()
     renderApp()
+    renderForm()
     renderTodoList()
 
     logToDOM("WASM Go Initialized")

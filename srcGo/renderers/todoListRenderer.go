@@ -8,14 +8,15 @@ import (
 )
 
 type TodoListRenderer struct {
-    todoListEl js.Value
+    // "todoListParentEl" is parent element where to-do list itself will be rendered
+    todoListParentEl js.Value
 }
 
-func (todoListRenderer TodoListRenderer) getTodoListEL(documentEl js.Value) js.Value {
-    if todoListRenderer.todoListEl.Type() == js.TypeUndefined {
-        todoListRenderer.todoListEl = htmlrender.GetFirstElementByClass(documentEl, "todo-list")
+func (todoListRenderer TodoListRenderer) getTodoListParentEL(baseEl js.Value) js.Value {
+    if todoListRenderer.todoListParentEl.Type() == js.TypeUndefined {
+        todoListRenderer.todoListParentEl = htmlrender.GetFirstElementByClass(baseEl, "todo-list")
     }
-    return todoListRenderer.todoListEl
+    return todoListRenderer.todoListParentEl
 }
 
 func (todoListRenderer TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
@@ -27,10 +28,10 @@ func (todoListRenderer TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
 
 func (todoListRenderer TodoListRenderer) RenderTodoList(documentEl js.Value,
                                                         todoList models.ToDoList) {
-    todoListEl := todoListRenderer.getTodoListEL(documentEl)
-    htmlrender.ClearElementContent(todoListEl)
+    todoListParentEl := todoListRenderer.getTodoListParentEL(documentEl)
+    htmlrender.ClearElementContent(todoListParentEl)
     htmlrender.RenderElement(
-        todoListEl,
+        todoListParentEl,
         htmlrender.CreateElement(
             documentEl,
             todoList.GetElementDef(),
@@ -48,7 +49,7 @@ func (todoListRenderer TodoListRenderer) AppendTodoItem(documentEl js.Value,
    )
    todoItem.SetEl(itemEl)
    htmlrender.RenderElement(
-       todoListRenderer.getTodoListEL(documentEl),
+       todoListRenderer.getTodoListParentEL(documentEl),
        itemEl,
    )
 }

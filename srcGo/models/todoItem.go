@@ -18,6 +18,7 @@ type ToDoItem struct {
     el    js.Value
 }
 
+// TODO this method should be in the itemRenderer
 func (toDoItem ToDoItem) getItemEl(baseEl js.Value) js.Value {
     return htmlrender.GetFirstElementByClass(
         baseEl,
