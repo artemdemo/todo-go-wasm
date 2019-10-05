@@ -20,9 +20,11 @@ func initToDoList() {
 }
 
 func addToDo(this js.Value, args []js.Value) interface{} {
-    title := getTitleInputEl().Get("value").String()
-    getTitleInputEl().Set("value", "")
-    toDoItem := toDoList.AddTodoItem(title, false)
+    toDoItem := toDoList.AddTodoItem(
+        formRenderer.GetTitle(getDocumentEl()),
+        false,
+    )
+    formRenderer.ClearTitleInput(getDocumentEl())
     todoListRenderer.AppendTodoItem(getDocumentEl(), toDoItem)
     return true
 }
