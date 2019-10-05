@@ -32,6 +32,10 @@ func (toDoItem *ToDoItem) SetEl(el js.Value) {
     toDoItem.el = el
 }
 
+func (toDoItem *ToDoItem) GetEl() js.Value {
+    return toDoItem.el
+}
+
 func (toDoItem ToDoItem) GetElementDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
         Tag: "div",
