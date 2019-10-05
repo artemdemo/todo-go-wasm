@@ -1,7 +1,7 @@
 package renderers
 
 import (
-    "fmt"
+    "strconv"
     "strings"
     "syscall/js"
 
@@ -12,7 +12,7 @@ import (
 type TodoListRenderer struct {
     // "todoListParentEl" is parent element where to-do list itself will be rendered
     todoListParentEl js.Value
-    onDeleteCb       func(todoId int)
+    onDeleteCb       func(todoId int64)
 }
 
 func NewTodoListRender(documentEl js.Value) *TodoListRenderer {
@@ -25,14 +25,14 @@ func (this *TodoListRenderer) clickOnTodoList(_this js.Value, args []js.Value) i
     target := args[0].Get("target")
     className := target.Get("className").String()
     if strings.Contains(className, "todo-delete") {
-        todoId := target.Get("dataset").Get("todoId").String()
-        fmt.Println("Delete", todoId)
-        this.onDeleteCb(10)
+        todoIdStr := target.Get("dataset").Get("todoId").String()
+        todoId, _ := strconv.ParseInt(todoIdStr, 10, 64)
+        this.onDeleteCb(todoId)
     }
     return ""
 }
 
-func (this *TodoListRenderer) OnDelete(cb func(todoId int)) {
+func (this *TodoListRenderer) OnDelete(cb func(todoId int64)) {
     this.onDeleteCb = cb
 }
 

@@ -30,7 +30,7 @@ func addTodo(this js.Value, args []js.Value) interface{} {
     return true
 }
 
-func deleteTodo(todoId int) {
+func deleteTodo(todoId int64) {
     fmt.Println("deleteTodo", todoId)
 }
 
