@@ -8,7 +8,6 @@ const {
 const {
     ModuleConcatenationPlugin,
 } = require('webpack').optimize;
-const { format } = require('date-fns');
 const extractStyles = require('./extractStyles');
 
 const MAIN_SRC_PATH = './src';
@@ -28,7 +27,7 @@ module.exports = (options) => {
         },
         output: {
             path: `${process.cwd()}/${options.buildFolder}`,
-    
+
             // @docs https://webpack.js.org/guides/caching/#deterministic-hashes
             filename: options.isProduction ?
                 './[name]-[chunkhash].js' :
@@ -48,7 +47,7 @@ module.exports = (options) => {
                     exclude: /node_modules/,
                     use: 'ts-loader',
                 },
-    
+
                 extractStyles.moduleRule(options.extractStylesFile),
             ],
         },
@@ -61,17 +60,17 @@ module.exports = (options) => {
 
             // Ignoring warnings for following plugins, case they doesn't matter
             new IgnorePlugin(/regenerator|nodent|js-beautify/, /ajv/),
-    
+
             // Defining global ENV variable
             new DefinePlugin({
                 ENV: {production: options.isProduction},
             }),
-    
+
             new HtmlWebpackPlugin({
                 template: `${MAIN_SRC_PATH}/index.ejs`,
                 filename: './index.html',
                 appVersion: options.appVersion,
-                appBuildDate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+                appBuildDate: new Date(),
             }),
 
             new CleanWebpackPlugin({
