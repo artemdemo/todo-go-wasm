@@ -7,36 +7,29 @@ import (
     "../models"
 )
 
-type todoListRenderer struct {
+type TodoListRenderer struct {
     // "todoListParentEl" is parent element where to-do list itself will be rendered
     todoListParentEl js.Value
 }
 
-func NewTodoListRender() *todoListRenderer {
-    todoListR := new(todoListRenderer)
+func NewTodoListRender(documentEl js.Value) *TodoListRenderer {
+    todoListR := new(TodoListRenderer)
+    todoListR.todoListParentEl = htmlrender.GetFirstElementByClass(documentEl, "todo-list")
     return todoListR
 }
 
-func (this *todoListRenderer) getTodoListParentEL(baseEl js.Value) js.Value {
-    if this.todoListParentEl.Type() == js.TypeUndefined {
-        this.todoListParentEl = htmlrender.GetFirstElementByClass(baseEl, "todo-list")
-    }
-    return this.todoListParentEl
-}
-
-func (this *todoListRenderer) GetBaseElDef() htmlrender.ElementDef {
+func (this *TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
         Tag: "div",
         ClassName: "todo-list mb-5",
     }
 }
 
-func (this *todoListRenderer) RenderTodoList(documentEl js.Value,
+func (this *TodoListRenderer) RenderTodoList(documentEl js.Value,
                                              todoList models.ToDoList) {
-    todoListParentEl := this.getTodoListParentEL(documentEl)
-    htmlrender.ClearElementContent(todoListParentEl)
+    htmlrender.ClearElementContent(this.todoListParentEl)
     htmlrender.RenderElement(
-        todoListParentEl,
+        this.todoListParentEl,
         htmlrender.CreateElement(
             documentEl,
             todoList.GetElementDef(),
@@ -46,7 +39,7 @@ func (this *todoListRenderer) RenderTodoList(documentEl js.Value,
 
 // AppendTodoItem is adding item to the DOM.
 // And setting link to the corresponded DOM element.
-func (this *todoListRenderer) AppendTodoItem(documentEl js.Value,
+func (this *TodoListRenderer) AppendTodoItem(documentEl js.Value,
                                              todoItem *models.ToDoItem) {
    itemEl := htmlrender.CreateElement(
        documentEl,
@@ -54,7 +47,7 @@ func (this *todoListRenderer) AppendTodoItem(documentEl js.Value,
    )
    todoItem.SetEl(itemEl)
    htmlrender.RenderElement(
-       this.getTodoListParentEL(documentEl),
+       this.todoListParentEl,
        itemEl,
    )
 }

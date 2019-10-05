@@ -11,7 +11,7 @@ import (
 var toDoList = models.ToDoList{}
 var form = models.Form{}
 
-var todoListRenderer = renderers.NewTodoListRender()
+var todoListRenderer *renderers.TodoListRenderer
 var formRenderer = renderers.NewFormRenderer()
 
 func initToDoList() {
@@ -75,6 +75,7 @@ func renderForm() {
 }
 
 func renderTodoList() {
+    todoListRenderer = renderers.NewTodoListRender(getDocumentEl())
     todoListRenderer.RenderTodoList(getDocumentEl(), toDoList)
 }
 
