@@ -12,7 +12,7 @@ var toDoList = models.ToDoList{}
 var form = models.Form{}
 
 var todoListRenderer = renderers.NewTodoListRender()
-var formRenderer = renderers.FormRenderer{}
+var formRenderer = renderers.NewFormRenderer()
 
 func initToDoList() {
     toDoList.AddTodoItem("First title", false)
