@@ -11,7 +11,7 @@ import (
 var toDoList = models.ToDoList{}
 var form = models.Form{}
 
-var todoListRenderer = renderers.TodoListRenderer{}
+var todoListRenderer = renderers.NewTodoListRender()
 var formRenderer = renderers.FormRenderer{}
 
 func initToDoList() {
