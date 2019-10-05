@@ -1,8 +1,6 @@
 package main
 
 import (
-    "encoding/json"
-    "fmt"
     "syscall/js"
 
     "./htmlrender"
@@ -27,20 +25,8 @@ func addToDo(this js.Value, args []js.Value) interface{} {
     return true
 }
 
-func getToDoList(this js.Value, args []js.Value) interface{} {
-    result, err := json.Marshal(toDoList)
-
-    if err != nil {
-        fmt.Println(err)
-        return ""
-    }
-
-    return js.ValueOf(string(result))
-}
-
 func registerCallbacks() {
     js.Global().Set("addToDo", js.FuncOf(addToDo))
-    js.Global().Set("getToDoList", js.FuncOf(getToDoList))
 }
 
 func logToDOM(msg string) {
