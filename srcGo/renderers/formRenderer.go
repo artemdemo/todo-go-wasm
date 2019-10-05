@@ -7,7 +7,7 @@ import (
     "../models"
 )
 
-type formRenderer struct {
+type FormRenderer struct {
     // "formParentEl" is parent element where form itself will be rendered
     formParentEl js.Value
     submitBtnEl  js.Value
@@ -16,64 +16,38 @@ type formRenderer struct {
 
 var formParentClassName = "form"
 
-func NewFormRenderer() *formRenderer {
-    formR := new(formRenderer)
+func NewFormRenderer(documentEl js.Value) *FormRenderer {
+    formR := new(FormRenderer)
+    formR.formParentEl = htmlrender.GetFirstElementByClass(documentEl, formParentClassName)
     return formR
 }
 
-func (this *formRenderer) getFormParentEl(baseEl js.Value) js.Value {
-    if this.formParentEl.Type() == js.TypeUndefined {
-        this.formParentEl = htmlrender.GetFirstElementByClass(baseEl, formParentClassName)
-    }
-    return this.formParentEl
+func (this *FormRenderer) ClearTitleInput() {
+    this.titleInputEl.Set("value", "")
 }
 
-func (this *formRenderer) getSubmitBtnEl(baseEl js.Value) js.Value {
-    if this.submitBtnEl.Type() == js.TypeUndefined {
-        this.submitBtnEl = htmlrender.GetElementById(baseEl, "submit-todo")
-    }
-    return this.submitBtnEl
+func (this *FormRenderer) GetTitle() string {
+    return this.titleInputEl.Get("value").String()
 }
 
-func (this *formRenderer) getTitleInputEl(baseEl js.Value) js.Value {
-    if this.titleInputEl.Type() == js.TypeUndefined {
-        this.titleInputEl = htmlrender.GetElementById(baseEl, "todo-title")
-    }
-    return this.titleInputEl
+func (this *FormRenderer) OnSubmitCb(cb func(js.Value, []js.Value) interface{}) {
+    this.submitBtnEl.Call("addEventListener", "click", js.FuncOf(cb))
 }
 
-func (this *formRenderer) ClearTitleInput(params ...js.Value) {
-    if len(params) == 0 {
-        this.titleInputEl.Set("value", "")
-    } else {
-        baseEl := params[0]
-        this.getTitleInputEl(baseEl).Set("value", "")
-    }
-}
-
-func (this *formRenderer) GetTitle(baseEl js.Value) string {
-    return this.getTitleInputEl(baseEl).Get("value").String()
-}
-
-func (this *formRenderer) OnSubmitCb(baseEl js.Value,
-                                     cb func(js.Value, []js.Value) interface{}) {
-    submitBtnEl := this.getSubmitBtnEl(baseEl)
-    submitBtnEl.Call("addEventListener", "click", js.FuncOf(cb))
-}
-
-func (this *formRenderer) RenderForm(documentEl js.Value,
+func (this *FormRenderer) RenderForm(documentEl js.Value,
                                      form models.Form) {
-    formParentEl := this.getFormParentEl(documentEl)
     htmlrender.RenderElement(
-        formParentEl,
+        this.formParentEl,
         htmlrender.CreateElement(
             documentEl,
             form.GetElementDef(),
         ),
     )
+    this.submitBtnEl = htmlrender.GetElementById(documentEl, "submit-todo")
+    this.titleInputEl = htmlrender.GetElementById(documentEl, "todo-title")
 }
 
-func (this formRenderer) GetBaseElDef() htmlrender.ElementDef {
+func (this *FormRenderer) GetBaseElDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
         Tag: "div",
         ClassName: formParentClassName,

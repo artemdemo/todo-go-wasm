@@ -12,7 +12,7 @@ var toDoList = models.ToDoList{}
 var form = models.Form{}
 
 var todoListRenderer *renderers.TodoListRenderer
-var formRenderer = renderers.NewFormRenderer()
+var formRenderer *renderers.FormRenderer
 
 func initToDoList() {
     toDoList.AddTodoItem("First title", false)
@@ -21,7 +21,7 @@ func initToDoList() {
 
 func addToDo(this js.Value, args []js.Value) interface{} {
     toDoItem := toDoList.AddTodoItem(
-        formRenderer.GetTitle(getDocumentEl()),
+        formRenderer.GetTitle(),
         false,
     )
     formRenderer.ClearTitleInput()
@@ -30,7 +30,7 @@ func addToDo(this js.Value, args []js.Value) interface{} {
 }
 
 func registerCallbacks() {
-    formRenderer.OnSubmitCb(getDocumentEl(), addToDo)
+    formRenderer.OnSubmitCb(addToDo)
 }
 
 func logToDOM(msg string) {
@@ -71,6 +71,7 @@ func renderApp() {
 }
 
 func renderForm() {
+    formRenderer = renderers.NewFormRenderer(getDocumentEl())
     formRenderer.RenderForm(getDocumentEl(), form)
 }
 
