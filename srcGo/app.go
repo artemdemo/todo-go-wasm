@@ -28,7 +28,7 @@ func addToDo(this js.Value, args []js.Value) interface{} {
 }
 
 func registerCallbacks() {
-    js.Global().Set("addToDo", js.FuncOf(addToDo))
+    formRenderer.OnSubmitCb(getDocumentEl(), addToDo)
 }
 
 func logToDOM(msg string) {
@@ -81,10 +81,11 @@ func main() {
     c := make(chan bool)
 
     initToDoList()
-    registerCallbacks()
     renderApp()
     renderForm()
     renderTodoList()
+
+    registerCallbacks()
 
     logToDOM("WASM Go Initialized")
 
