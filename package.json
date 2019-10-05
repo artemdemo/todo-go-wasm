@@ -4,7 +4,7 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "server": "http-server ./build",
+    "server": "go run srcServer/server.go",
     "watch": "webpack --progress --colors --watch",
     "build:go": "./build.sh",
     "build:fe": "webpack --progress --colors",
@@ -27,7 +27,6 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^4.0.0",
     "html-webpack-plugin": "^3.2.0",
-    "http-server": "^0.11.1",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "style-loader": "^0.23.1",
