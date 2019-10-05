@@ -6,7 +6,7 @@
   "scripts": {
     "server": "go run srcServer/server.go",
     "watch": "webpack --progress --colors --watch",
-    "build:go": "./build.sh",
+    "build:go": "GOOS=js GOARCH=wasm go build -o build/main.wasm srcGo/*.go",
     "build:fe": "webpack --progress --colors",
     "build": "npm run build:fe && npm run build:go"
   },
