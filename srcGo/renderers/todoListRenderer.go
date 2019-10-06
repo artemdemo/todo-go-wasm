@@ -2,11 +2,11 @@ package renderers
 
 import (
     "strconv"
-    "strings"
     "syscall/js"
 
     "../htmlrender"
     "../models"
+    "../services"
 )
 
 type TodoListRenderer struct {
@@ -15,16 +15,19 @@ type TodoListRenderer struct {
     onDeleteCb       func(todoId int64)
 }
 
+const (
+    todoListClassname = "todo-list"
+)
+
 func NewTodoListRender(documentEl js.Value) *TodoListRenderer {
     todoListR := new(TodoListRenderer)
-    todoListR.todoListParentEl = htmlrender.GetFirstElementByClass(documentEl, "todo-list")
+    todoListR.todoListParentEl = htmlrender.GetFirstElementByClass(documentEl, todoListClassname)
     return todoListR
 }
 
 func (this *TodoListRenderer) clickOnTodoList(_this js.Value, args []js.Value) interface{} {
     target := args[0].Get("target")
-    className := target.Get("className").String()
-    if strings.Contains(className, "todo-delete") {
+    if htmlrender.ElementHasClass(target, "todo-delete") {
         todoIdStr := target.Get("dataset").Get("todoId").String()
         todoId, _ := strconv.ParseInt(todoIdStr, 10, 64)
         this.onDeleteCb(todoId)
@@ -39,7 +42,10 @@ func (this *TodoListRenderer) OnDelete(cb func(todoId int64)) {
 func (this *TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
         Tag: "div",
-        ClassName: "todo-list mb-5",
+        ClassName: services.Classnames(
+            "mb-5",
+            todoListClassname,
+        ),
     }
 }
 

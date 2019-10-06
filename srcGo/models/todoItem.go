@@ -6,6 +6,7 @@ import (
     "syscall/js"
 
     "../htmlrender"
+    "../services"
 )
 
 type ToDoItem struct {
@@ -39,9 +40,10 @@ func (toDoItem *ToDoItem) GetEl() js.Value {
 func (toDoItem ToDoItem) GetElementDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
         Tag: "div",
-        ClassName: fmt.Sprintf(
-            "todo-item todo-item-%d p-2 border-b-2 border-gray-200 flex justify-between",
-            toDoItem.ID,
+        ClassName: services.Classnames(
+            "todo-item",
+            fmt.Sprintf("todo-item-%d", toDoItem.ID),
+            "p-2 border-b-2 border-gray-200 flex justify-between",
         ),
         Children: []htmlrender.ElementDef{
             {
@@ -50,7 +52,10 @@ func (toDoItem ToDoItem) GetElementDef() htmlrender.ElementDef {
             },
             {
                 Tag: "button",
-                ClassName: "todo-delete bg-gray-500 hover:bg-gray-600 text-xs text-white py-1 px-2 rounded",
+                ClassName: services.Classnames(
+                    "todo-delete",
+                    "bg-gray-500 hover:bg-gray-600 text-xs text-white py-1 px-2 rounded",
+                ),
                 InnerText: "Delete",
                 Attributes: []htmlrender.ElementAttr{
                     {
