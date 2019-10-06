@@ -14,7 +14,9 @@ type FormRenderer struct {
     titleInputEl js.Value
 }
 
-var formParentClassName = "form"
+const (
+    formParentClassName = "form"
+)
 
 func NewFormRenderer(documentEl js.Value) *FormRenderer {
     formR := new(FormRenderer)
