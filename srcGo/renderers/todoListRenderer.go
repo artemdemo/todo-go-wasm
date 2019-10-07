@@ -35,6 +35,13 @@ func (this *TodoListRenderer) clickOnTodoList(_this js.Value, args []js.Value) i
     return ""
 }
 
+func (this *TodoListRenderer) getItemEl(baseEl js.Value, todoItem models.ToDoItem) js.Value {
+    return htmlrender.GetFirstElementByClass(
+        baseEl,
+        todoItem.GetItemIdClassname(),
+    )
+}
+
 func (this *TodoListRenderer) OnDelete(cb func(todoId int64)) {
     this.onDeleteCb = cb
 }
