@@ -15,28 +15,37 @@ type ToDoItem struct {
     Done  bool   `json:"done"`
 }
 
+const (
+    todoItemClassname = "todo-item"
+)
+
 // TODO this method should be in the itemRenderer
-func (toDoItem ToDoItem) getItemEl(baseEl js.Value) js.Value {
+func (todoItem ToDoItem) getItemEl(baseEl js.Value) js.Value {
     return htmlrender.GetFirstElementByClass(
         baseEl,
-        fmt.Sprintf("todo-item-%d", toDoItem.ID),
+        fmt.Sprintf("%s-%d", todoItemClassname, todoItem.ID),
     )
 }
 
-func (toDoItem ToDoItem) Delete(baseEl js.Value) {}
+func (todoItem ToDoItem) GetItemClassname(id interface{}) string {
+    if idInt, ok := id.(int); ok {
+        return fmt.Sprintf("%s-%d", todoItemClassname, idInt)
+    }
+    return todoItemClassname
+}
 
-func (toDoItem ToDoItem) GetElementDef() htmlrender.ElementDef {
+func (todoItem ToDoItem) GetElementDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
         Tag: "div",
         ClassName: services.Classnames(
-            "todo-item",
-            fmt.Sprintf("todo-item-%d", toDoItem.ID),
+            todoItemClassname,
+            todoItem.GetItemClassname(todoItem.ID),
             "p-2 border-b-2 border-gray-200 flex justify-between",
         ),
         Children: []htmlrender.ElementDef{
             {
                 Tag: "span",
-                InnerText: toDoItem.Title,
+                InnerText: todoItem.Title,
             },
             {
                 Tag: "button",
@@ -48,7 +57,7 @@ func (toDoItem ToDoItem) GetElementDef() htmlrender.ElementDef {
                 Attributes: []htmlrender.ElementAttr{
                     {
                         Name: "data-todo-id",
-                        Content: strconv.Itoa(toDoItem.ID),
+                        Content: strconv.Itoa(todoItem.ID),
                     },
                 },
             },
