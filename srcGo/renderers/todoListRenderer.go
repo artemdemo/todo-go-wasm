@@ -13,6 +13,8 @@ type TodoListRenderer struct {
     // "todoListParentEl" is parent element where to-do list itself will be rendered
     todoListParentEl js.Value
     onDeleteCb       func(todoId int64)
+    // "dummyTodoItem" will be used here to retrieve locator classnames
+    dummyTodoItem    models.ToDoItem
 }
 
 const (
@@ -22,12 +24,14 @@ const (
 func NewTodoListRender(documentEl js.Value) *TodoListRenderer {
     todoListR := new(TodoListRenderer)
     todoListR.todoListParentEl = htmlrender.GetFirstElementByClass(documentEl, todoListClassname)
+    todoListR.dummyTodoItem = models.ToDoItem{}
     return todoListR
 }
 
 func (this *TodoListRenderer) clickOnTodoList(_this js.Value, args []js.Value) interface{} {
     target := args[0].Get("target")
-    if htmlrender.ElementHasClass(target, "todo-delete") {
+    todoDeleteClassname := this.dummyTodoItem.GetItemDeleteClassname()
+    if htmlrender.ElementHasClass(target, todoDeleteClassname) {
         todoIdStr := target.Get("dataset").Get("todoId").String()
         todoId, _ := strconv.ParseInt(todoIdStr, 10, 64)
         this.onDeleteCb(todoId)

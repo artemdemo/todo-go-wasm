@@ -23,6 +23,10 @@ func (todoItem *ToDoItem) GetItemIdClassname() string {
     return fmt.Sprintf("%s-%d", todoItemClassname, todoItem.ID)
 }
 
+func (todoItem *ToDoItem) GetItemDeleteClassname() string {
+    return todoItemDeleteClassname
+}
+
 func (todoItem *ToDoItem) GetElementDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
         Tag: "div",
