@@ -70,7 +70,6 @@ func (this *TodoListRenderer) AppendTodoItem(documentEl js.Value,
        documentEl,
        todoItem.GetElementDef(),
    )
-   todoItem.SetEl(itemEl)
    htmlrender.RenderElement(
        this.todoListParentEl,
        itemEl,
