@@ -21,8 +21,6 @@ func argProcessor(arg interface{}) string {
     return fmt.Sprintf("%v", arg)
 }
 
-// "How to check variable type is map in Go language"
-// https://stackoverflow.com/a/20759949
 func Classnames(args ...interface{}) string {
     var classList []string
     for _, arg := range args {
