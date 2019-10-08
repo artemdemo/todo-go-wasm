@@ -77,7 +77,6 @@ func (this *TodoListRenderer) RenderTodoList(todoList models.ToDoList) {
     htmlrender.RenderElement(
         this.todoListParentEl,
         htmlrender.CreateElement(
-            htmlrender.GetDocumentEl(),
             todoList.GetElementDef(),
         ),
     )
@@ -87,12 +86,10 @@ func (this *TodoListRenderer) RenderTodoList(todoList models.ToDoList) {
 // AppendTodoItem is adding item to the DOM.
 // And setting link to the corresponded DOM element.
 func (this *TodoListRenderer) AppendTodoItem(todoItem *models.ToDoItem) {
-   itemEl := htmlrender.CreateElement(
-       htmlrender.GetDocumentEl(),
-       todoItem.GetElementDef(),
-   )
    htmlrender.RenderElement(
        this.todoListParentEl,
-       itemEl,
+       htmlrender.CreateElement(
+           todoItem.GetElementDef(),
+       ),
    )
 }

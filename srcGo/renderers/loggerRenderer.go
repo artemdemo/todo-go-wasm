@@ -29,7 +29,6 @@ func (this *LoggerRenderer) AppendLogMsg(msg string) {
     htmlrender.RenderElement(
         this.loggerParentEl,
         htmlrender.CreateElement(
-            htmlrender.GetDocumentEl(),
             htmlrender.ElementDef{
                 Tag: "p",
                 Children: []htmlrender.ElementDef{

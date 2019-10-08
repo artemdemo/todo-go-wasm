@@ -47,7 +47,6 @@ func (this *FormRenderer) RenderForm(form models.Form) {
     htmlrender.RenderElement(
         this.formParentEl,
         htmlrender.CreateElement(
-            documentEl,
             form.GetElementDef(),
         ),
     )

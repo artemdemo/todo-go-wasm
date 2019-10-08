@@ -24,13 +24,23 @@ type ElementDef struct {
     Children   []ElementDef
 }
 
+var _documentEL js.Value
+
+func GetDocumentEl() js.Value {
+    if _documentEL.Type() == js.TypeUndefined {
+        _documentEL = js.Global().Get("document")
+    }
+    return _documentEL
+}
+
 // CreateElement is creating DOM element based on ElementDef
-func CreateElement(document js.Value, elDef ElementDef) js.Value {
+func CreateElement(elDef ElementDef) js.Value {
     var el js.Value
+    var documentEl = GetDocumentEl()
     // If there is no Tag name, then it's text node
     // and text node can't have attributes or children
     if elDef.Tag != "" {
-        el = document.Call("createElement", elDef.Tag)
+        el = documentEl.Call("createElement", elDef.Tag)
         if elDef.ClassName != "" {
             el.Call("setAttribute", "class", elDef.ClassName)
         }
@@ -51,14 +61,14 @@ func CreateElement(document js.Value, elDef ElementDef) js.Value {
         } else if len(elDef.Children) > 0 {
             childrenAmount := len(elDef.Children)
             for i := 0; i < childrenAmount; i++ {
-                childEl := CreateElement(document, elDef.Children[i])
+                childEl := CreateElement(elDef.Children[i])
                 el.Call("appendChild", childEl)
             }
         }
     // If there is InnerText, without Tag,
     // then I'll render text node
     } else if elDef.InnerText != "" {
-        el = document.Call("createTextNode", elDef.InnerText)
+        el = documentEl.Call("createTextNode", elDef.InnerText)
     }
     return el
 }
@@ -71,13 +81,4 @@ func RenderElement(baseEl js.Value, el js.Value) {
 // ClearElementContent is clearing element content
 func ClearElementContent(el js.Value) {
     el.Set("innerHtml", "")
-}
-
-var _documentEL js.Value
-
-func GetDocumentEl() js.Value {
-    if _documentEL.Type() == js.TypeUndefined {
-        _documentEL = js.Global().Get("document")
-    }
-    return _documentEL
 }
