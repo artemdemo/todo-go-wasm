@@ -25,11 +25,11 @@ func (todoItem *ToDoItem) GetItemIdClassname() string {
     return fmt.Sprintf("%s-%d", todoItemClassname, todoItem.ID)
 }
 
-func (todoItem *ToDoItem) GetItemDeleteClassname() string {
+func (todoItem *ToDoItem) GetTodoItemDeleteClassname() string {
     return todoItemDeleteClassname
 }
 
-func (todoItem *ToDoItem) GetItemDoneClassname() string {
+func (todoItem *ToDoItem) GetTodoItemDoneClassname() string {
     return todoItemDoneClassname
 }
 

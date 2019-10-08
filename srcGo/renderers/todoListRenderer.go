@@ -30,7 +30,7 @@ func NewTodoListRender(documentEl js.Value) *TodoListRenderer {
 
 func (this *TodoListRenderer) clickOnTodoList(_this js.Value, args []js.Value) interface{} {
     target := args[0].Get("target")
-    todoDeleteClassname := this.dummyTodoItem.GetItemDeleteClassname()
+    todoDeleteClassname := this.dummyTodoItem.GetTodoItemDeleteClassname()
     if htmlrender.ElementHasClass(target, todoDeleteClassname) {
         todoIdStr := target.Get("dataset").Get("todoId").String()
         todoId, _ := strconv.ParseInt(todoIdStr, 10, 64)
