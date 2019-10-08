@@ -23,9 +23,12 @@ const (
     todoListClassname = "todo-list"
 )
 
-func NewTodoListRender(documentEl js.Value) *TodoListRenderer {
+func NewTodoListRender() *TodoListRenderer {
     todoListR := new(TodoListRenderer)
-    todoListR.todoListParentEl = htmlrender.GetFirstElementByClass(documentEl, todoListClassname)
+    todoListR.todoListParentEl = htmlrender.GetFirstElementByClass(
+        htmlrender.GetDocumentEl(),
+        todoListClassname,
+    )
     todoListR.dummyTodoItem = models.ToDoItem{}
     return todoListR
 }
@@ -69,13 +72,12 @@ func (this *TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
     }
 }
 
-func (this *TodoListRenderer) RenderTodoList(documentEl js.Value,
-                                             todoList models.ToDoList) {
+func (this *TodoListRenderer) RenderTodoList(todoList models.ToDoList) {
     htmlrender.ClearElementContent(this.todoListParentEl)
     htmlrender.RenderElement(
         this.todoListParentEl,
         htmlrender.CreateElement(
-            documentEl,
+            htmlrender.GetDocumentEl(),
             todoList.GetElementDef(),
         ),
     )
@@ -84,10 +86,9 @@ func (this *TodoListRenderer) RenderTodoList(documentEl js.Value,
 
 // AppendTodoItem is adding item to the DOM.
 // And setting link to the corresponded DOM element.
-func (this *TodoListRenderer) AppendTodoItem(documentEl js.Value,
-                                             todoItem *models.ToDoItem) {
+func (this *TodoListRenderer) AppendTodoItem(todoItem *models.ToDoItem) {
    itemEl := htmlrender.CreateElement(
-       documentEl,
+       htmlrender.GetDocumentEl(),
        todoItem.GetElementDef(),
    )
    htmlrender.RenderElement(

@@ -72,3 +72,12 @@ func RenderElement(baseEl js.Value, el js.Value) {
 func ClearElementContent(el js.Value) {
     el.Set("innerHtml", "")
 }
+
+var _documentEL js.Value
+
+func GetDocumentEl() js.Value {
+    if _documentEL.Type() == js.TypeUndefined {
+        _documentEL = js.Global().Get("document")
+    }
+    return _documentEL
+}

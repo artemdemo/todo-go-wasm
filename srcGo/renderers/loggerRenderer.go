@@ -16,17 +16,20 @@ const (
     appLoggerClassname = "app-logger"
 )
 
-func NewLoggerRenderer(documentEl js.Value) *LoggerRenderer {
+func NewLoggerRenderer() *LoggerRenderer {
     loggerR := new(LoggerRenderer)
-    loggerR.loggerParentEl = htmlrender.GetFirstElementByClass(documentEl, appLoggerClassname)
+    loggerR.loggerParentEl = htmlrender.GetFirstElementByClass(
+        htmlrender.GetDocumentEl(),
+        appLoggerClassname,
+    )
     return loggerR
 }
 
-func (this *LoggerRenderer) AppendLogMsg(documentEl js.Value, msg string) {
+func (this *LoggerRenderer) AppendLogMsg(msg string) {
     htmlrender.RenderElement(
         this.loggerParentEl,
         htmlrender.CreateElement(
-            documentEl,
+            htmlrender.GetDocumentEl(),
             htmlrender.ElementDef{
                 Tag: "p",
                 Children: []htmlrender.ElementDef{

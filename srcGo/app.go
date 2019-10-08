@@ -27,7 +27,7 @@ func addTodo(this js.Value, args []js.Value) interface{} {
         false,
     )
     formRenderer.ClearTitleInput()
-    todoListRenderer.AppendTodoItem(getDocumentEl(), toDoItem)
+    todoListRenderer.AppendTodoItem(toDoItem)
     return true
 }
 
@@ -46,9 +46,9 @@ func registerCallbacks() {
 }
 
 func renderApp() {
-    document := getDocumentEl()
+    documentEl := htmlrender.GetDocumentEl()
     baseAppEl := htmlrender.CreateElement(
-        document,
+        documentEl,
         htmlrender.ElementDef{
             Tag: "div",
             Children: []htmlrender.ElementDef{
@@ -59,23 +59,23 @@ func renderApp() {
         },
     )
     htmlrender.RenderElement(
-        htmlrender.GetElementById(document, "app"),
+        htmlrender.GetElementById(documentEl, "app"),
         baseAppEl,
     )
 }
 
 func renderForm() {
-    formRenderer = renderers.NewFormRenderer(getDocumentEl())
-    formRenderer.RenderForm(getDocumentEl(), form)
+    formRenderer = renderers.NewFormRenderer()
+    formRenderer.RenderForm(form)
 }
 
 func renderTodoList() {
-    todoListRenderer = renderers.NewTodoListRender(getDocumentEl())
-    todoListRenderer.RenderTodoList(getDocumentEl(), toDoList)
+    todoListRenderer = renderers.NewTodoListRender()
+    todoListRenderer.RenderTodoList(toDoList)
 }
 
 func renderLogger() {
-    loggerRenderer = renderers.NewLoggerRenderer(getDocumentEl())
+    loggerRenderer = renderers.NewLoggerRenderer()
 }
 
 func main() {
@@ -90,7 +90,7 @@ func main() {
 
     registerCallbacks()
 
-    loggerRenderer.AppendLogMsg(getDocumentEl(), "WASM Go Initialized")
+    loggerRenderer.AppendLogMsg("WASM Go Initialized")
 
     c <- true
 }

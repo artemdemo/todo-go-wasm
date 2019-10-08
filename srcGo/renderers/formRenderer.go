@@ -20,9 +20,12 @@ const (
     formParentClassName = "form"
 )
 
-func NewFormRenderer(documentEl js.Value) *FormRenderer {
+func NewFormRenderer() *FormRenderer {
     formR := new(FormRenderer)
-    formR.formParentEl = htmlrender.GetFirstElementByClass(documentEl, formParentClassName)
+    formR.formParentEl = htmlrender.GetFirstElementByClass(
+        htmlrender.GetDocumentEl(),
+        formParentClassName,
+    )
     formR.dummyForm = models.Form{}
     return formR
 }
@@ -39,8 +42,8 @@ func (this *FormRenderer) OnSubmitCb(cb func(js.Value, []js.Value) interface{}) 
     this.submitBtnEl.Call("addEventListener", "click", js.FuncOf(cb))
 }
 
-func (this *FormRenderer) RenderForm(documentEl js.Value,
-                                     form models.Form) {
+func (this *FormRenderer) RenderForm(form models.Form) {
+    documentEl := htmlrender.GetDocumentEl()
     htmlrender.RenderElement(
         this.formParentEl,
         htmlrender.CreateElement(
