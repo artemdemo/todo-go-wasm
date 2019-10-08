@@ -30,6 +30,28 @@ func (todoItem *ToDoItem) GetItemDeleteClassname() string {
 }
 
 func (todoItem *ToDoItem) GetElementDef() htmlrender.ElementDef {
+    deleteBtn := Button{
+        Text:      "Delete",
+        BgColor:   "orange",
+        ClassName: "mr-1 text-xs",
+        Attributes: []htmlrender.ElementAttr{
+            {
+                Name: dataTodoId,
+                Content: strconv.Itoa(todoItem.ID),
+            },
+        },
+    }
+    doneBtn := Button{
+        Text:       "Done",
+        BgColor:    "green",
+        ClassName:  "text-xs",
+        Attributes: []htmlrender.ElementAttr{
+            {
+                Name: dataTodoId,
+                Content: strconv.Itoa(todoItem.ID),
+            },
+        },
+    }
     return htmlrender.ElementDef{
         Tag: "div",
         ClassName: services.Classnames(
@@ -45,36 +67,8 @@ func (todoItem *ToDoItem) GetElementDef() htmlrender.ElementDef {
             {
                 Tag: "div",
                 Children: []htmlrender.ElementDef{
-                    {
-                        Tag: "button",
-                        ClassName: services.Classnames(
-                            todoItemDeleteClassname,
-                            "bg-orange-500 hover:bg-orange-600 text-xs text-white",
-                            "mr-1 py-1 px-2 rounded",
-                        ),
-                        InnerText: "Delete",
-                        Attributes: []htmlrender.ElementAttr{
-                            {
-                                Name: dataTodoId,
-                                Content: strconv.Itoa(todoItem.ID),
-                            },
-                        },
-                    },
-                    {
-                        Tag: "button",
-                        ClassName: services.Classnames(
-                            todoItemDoneClassname,
-                            "bg-green-500 hover:bg-green-600 text-xs text-white",
-                            "py-1 px-2 rounded",
-                        ),
-                        InnerText: "Done",
-                        Attributes: []htmlrender.ElementAttr{
-                            {
-                                Name: dataTodoId,
-                                Content: strconv.Itoa(todoItem.ID),
-                            },
-                        },
-                    },
+                    deleteBtn.GetElementDef(),
+                    doneBtn.GetElementDef(),
                 },
             },
         },

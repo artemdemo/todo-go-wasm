@@ -6,7 +6,7 @@ import (
 
 type Form struct {}
 
-func (form Form) GetElementDef() htmlrender.ElementDef {
+func (form *Form) GetElementDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
         Tag: "div",
         ClassName: "mb-4",
