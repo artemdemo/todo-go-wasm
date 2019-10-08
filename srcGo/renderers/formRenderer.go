@@ -12,6 +12,8 @@ type FormRenderer struct {
     formParentEl js.Value
     submitBtnEl  js.Value
     titleInputEl js.Value
+    // "dummyForm" will be used here to retrieve locator classnames
+    dummyForm    models.Form
 }
 
 const (
@@ -21,6 +23,7 @@ const (
 func NewFormRenderer(documentEl js.Value) *FormRenderer {
     formR := new(FormRenderer)
     formR.formParentEl = htmlrender.GetFirstElementByClass(documentEl, formParentClassName)
+    formR.dummyForm = models.Form{}
     return formR
 }
 
@@ -45,8 +48,14 @@ func (this *FormRenderer) RenderForm(documentEl js.Value,
             form.GetElementDef(),
         ),
     )
-    this.submitBtnEl = htmlrender.GetFirstElementByClass(documentEl, "submit-todo")
-    this.titleInputEl = htmlrender.GetFirstElementByClass(documentEl, "todo-title")
+    this.submitBtnEl = htmlrender.GetFirstElementByClass(
+        documentEl,
+        this.dummyForm.GetAddTodoButtonClassname(),
+    )
+    this.titleInputEl = htmlrender.GetFirstElementByClass(
+        documentEl,
+        this.dummyForm.GetTodoTitleInputClassname(),
+    )
 }
 
 func (this *FormRenderer) GetBaseElDef() htmlrender.ElementDef {
