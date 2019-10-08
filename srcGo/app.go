@@ -34,9 +34,14 @@ func deleteTodo(todoId int64) {
     fmt.Println("deleteTodo", todoId)
 }
 
+func toggleDone(todoId int64) {
+    fmt.Println("doneTodo", todoId)
+}
+
 func registerCallbacks() {
     formRenderer.OnSubmitCb(addTodo)
     todoListRenderer.OnDelete(deleteTodo)
+    todoListRenderer.OnDone(toggleDone)
 }
 
 func logToDOM(msg string) {

@@ -8,10 +8,13 @@ import (
     "../services"
 )
 
+type itemCb func(todoId int64)
+
 type TodoListRenderer struct {
     // "todoListParentEl" is parent element where to-do list itself will be rendered
     todoListParentEl js.Value
-    onDeleteCb       func(todoId int64)
+    onDeleteCb       itemCb
+    onDoneCb         itemCb
     // "dummyTodoItem" will be used here to retrieve locator classnames
     dummyTodoItem    models.ToDoItem
 }
@@ -30,9 +33,13 @@ func NewTodoListRender(documentEl js.Value) *TodoListRenderer {
 func (this *TodoListRenderer) clickOnTodoList(_this js.Value, args []js.Value) interface{} {
     target := args[0].Get("target")
     todoDeleteClassname := this.dummyTodoItem.GetTodoItemDeleteClassname()
+    todoItemDoneClassname := this.dummyTodoItem.GetTodoItemDoneClassname();
     if htmlrender.ElementHasClass(target, todoDeleteClassname) {
         todoId := this.dummyTodoItem.GetTodoIdFromEl(target)
         this.onDeleteCb(todoId)
+    } else if htmlrender.ElementHasClass(target, todoItemDoneClassname) {
+        todoId := this.dummyTodoItem.GetTodoIdFromEl(target)
+        this.onDoneCb(todoId)
     }
     return ""
 }
@@ -44,8 +51,12 @@ func (this *TodoListRenderer) getItemEl(baseEl js.Value, todoItem models.ToDoIte
     )
 }
 
-func (this *TodoListRenderer) OnDelete(cb func(todoId int64)) {
+func (this *TodoListRenderer) OnDelete(cb itemCb) {
     this.onDeleteCb = cb
+}
+
+func (this *TodoListRenderer) OnDone(cb itemCb) {
+    this.onDoneCb = cb
 }
 
 func (this *TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
