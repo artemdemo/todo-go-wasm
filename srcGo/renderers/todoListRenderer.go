@@ -1,7 +1,6 @@
 package renderers
 
 import (
-    "strconv"
     "syscall/js"
 
     "../htmlrender"
@@ -32,8 +31,7 @@ func (this *TodoListRenderer) clickOnTodoList(_this js.Value, args []js.Value) i
     target := args[0].Get("target")
     todoDeleteClassname := this.dummyTodoItem.GetTodoItemDeleteClassname()
     if htmlrender.ElementHasClass(target, todoDeleteClassname) {
-        todoIdStr := target.Get("dataset").Get("todoId").String()
-        todoId, _ := strconv.ParseInt(todoIdStr, 10, 64)
+        todoId := this.dummyTodoItem.GetTodoIdFromEl(target)
         this.onDeleteCb(todoId)
     }
     return ""

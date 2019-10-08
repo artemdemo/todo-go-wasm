@@ -3,6 +3,7 @@ package models
 import (
     "fmt"
     "strconv"
+    "syscall/js"
 
     "../htmlrender"
     "../services"
@@ -31,6 +32,12 @@ func (todoItem *ToDoItem) GetTodoItemDeleteClassname() string {
 
 func (todoItem *ToDoItem) GetTodoItemDoneClassname() string {
     return todoItemDoneClassname
+}
+
+func (todoItem * ToDoItem) GetTodoIdFromEl(el js.Value) int64 {
+    todoIdStr := el.Get("dataset").Get("todoId").String()
+    todoId, _ := strconv.ParseInt(todoIdStr, 10, 64)
+    return todoId
 }
 
 func (todoItem *ToDoItem) GetElementDef() htmlrender.ElementDef {
