@@ -17,6 +17,8 @@ type ToDoItem struct {
 const (
     todoItemClassname = "todo-item"
     todoItemDeleteClassname = "todo-delete"
+    todoItemDoneClassname = "todo-done"
+    dataTodoId = "data-todo-id"
 )
 
 func (todoItem *ToDoItem) GetItemIdClassname() string {
@@ -41,16 +43,37 @@ func (todoItem *ToDoItem) GetElementDef() htmlrender.ElementDef {
                 InnerText: todoItem.Title,
             },
             {
-                Tag: "button",
-                ClassName: services.Classnames(
-                    todoItemDeleteClassname,
-                    "bg-gray-500 hover:bg-gray-600 text-xs text-white py-1 px-2 rounded",
-                ),
-                InnerText: "Delete",
-                Attributes: []htmlrender.ElementAttr{
+                Tag: "div",
+                Children: []htmlrender.ElementDef{
                     {
-                        Name: "data-todo-id",
-                        Content: strconv.Itoa(todoItem.ID),
+                        Tag: "button",
+                        ClassName: services.Classnames(
+                            todoItemDeleteClassname,
+                            "bg-orange-500 hover:bg-orange-600 text-xs text-white",
+                            "mr-1 py-1 px-2 rounded",
+                        ),
+                        InnerText: "Delete",
+                        Attributes: []htmlrender.ElementAttr{
+                            {
+                                Name: dataTodoId,
+                                Content: strconv.Itoa(todoItem.ID),
+                            },
+                        },
+                    },
+                    {
+                        Tag: "button",
+                        ClassName: services.Classnames(
+                            todoItemDoneClassname,
+                            "bg-green-500 hover:bg-green-600 text-xs text-white",
+                            "py-1 px-2 rounded",
+                        ),
+                        InnerText: "Done",
+                        Attributes: []htmlrender.ElementAttr{
+                            {
+                                Name: dataTodoId,
+                                Content: strconv.Itoa(todoItem.ID),
+                            },
+                        },
                     },
                 },
             },
