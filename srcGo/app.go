@@ -14,6 +14,7 @@ var form = models.Form{}
 
 var todoListRenderer *renderers.TodoListRenderer
 var formRenderer *renderers.FormRenderer
+var loggerRenderer *renderers.LoggerRenderer
 
 func initToDoList() {
     toDoList.AddTodoItem("First title", false)
@@ -44,21 +45,6 @@ func registerCallbacks() {
     todoListRenderer.OnDone(toggleDone)
 }
 
-func logToDOM(msg string) {
-    htmlrender.RenderElement(
-        getAppLoggerEl(),
-        htmlrender.CreateElement(
-            getDocumentEl(),
-            htmlrender.ElementDef{
-                Tag: "p",
-                Children: []htmlrender.ElementDef{
-                    { InnerText: msg },
-                },
-            },
-        ),
-    )
-}
-
 func renderApp() {
     document := getDocumentEl()
     baseAppEl := htmlrender.CreateElement(
@@ -68,10 +54,7 @@ func renderApp() {
             Children: []htmlrender.ElementDef{
                 formRenderer.GetBaseElDef(),
                 todoListRenderer.GetBaseElDef(),
-                {
-                    Tag: "div",
-                    ClassName: "app-logger rounded bg-gray-100 p-3 text-gray-500",
-                },
+                loggerRenderer.GetElementDef(),
             },
         },
     )
@@ -91,6 +74,10 @@ func renderTodoList() {
     todoListRenderer.RenderTodoList(getDocumentEl(), toDoList)
 }
 
+func renderLogger() {
+    loggerRenderer = renderers.NewLoggerRenderer(getDocumentEl())
+}
+
 func main() {
     // Creating a channel will turn program into long-running one
     c := make(chan bool)
@@ -99,10 +86,11 @@ func main() {
     renderApp()
     renderForm()
     renderTodoList()
+    renderLogger()
 
     registerCallbacks()
 
-    logToDOM("WASM Go Initialized")
+    loggerRenderer.AppendLogMsg(getDocumentEl(), "WASM Go Initialized")
 
     c <- true
 }
