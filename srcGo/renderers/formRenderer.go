@@ -7,11 +7,14 @@ import (
     "../models"
 )
 
+type submitCb func(title string)
+
 type FormRenderer struct {
     // "formParentEl" is parent element where form itself will be rendered
     formParentEl js.Value
     submitBtnEl  js.Value
     titleInputEl js.Value
+    onSubmitCb   submitCb
     // "dummyForm" will be used here to retrieve locator classnames
     dummyForm    models.Form
 }
@@ -30,16 +33,16 @@ func NewFormRenderer() *FormRenderer {
     return formR
 }
 
-func (this *FormRenderer) ClearTitleInput() {
+func (this *FormRenderer) OnSubmit(cb submitCb) {
+    this.onSubmitCb = cb
+}
+
+func (this *FormRenderer) clickOnSubmit(js.Value, []js.Value) interface{} {
+    this.onSubmitCb(
+        this.titleInputEl.Get("value").String(),
+    )
     this.titleInputEl.Set("value", "")
-}
-
-func (this *FormRenderer) GetTitle() string {
-    return this.titleInputEl.Get("value").String()
-}
-
-func (this *FormRenderer) OnSubmitCb(cb func(js.Value, []js.Value) interface{}) {
-    this.submitBtnEl.Call("addEventListener", "click", js.FuncOf(cb))
+    return ""
 }
 
 func (this *FormRenderer) RenderForm(form models.Form) {
@@ -56,6 +59,7 @@ func (this *FormRenderer) RenderForm(form models.Form) {
         documentEl,
         this.dummyForm.GetTodoTitleInputClassname(),
     )
+    this.submitBtnEl.Call("addEventListener", "click", js.FuncOf(this.clickOnSubmit))
 }
 
 func (this *FormRenderer) GetBaseElDef() htmlrender.ElementDef {

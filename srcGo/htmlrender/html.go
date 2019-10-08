@@ -26,6 +26,7 @@ type ElementDef struct {
 
 var _documentEL js.Value
 
+// GetDocumentEl is allocating and returning reference to global `document`
 func GetDocumentEl() js.Value {
     if _documentEL.Type() == js.TypeUndefined {
         _documentEL = js.Global().Get("document")

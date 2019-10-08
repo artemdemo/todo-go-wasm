@@ -1,12 +1,10 @@
 package main
 
 import (
-    "fmt"
-    "syscall/js"
-
     "./htmlrender"
     "./models"
     "./renderers"
+    "fmt"
 )
 
 var toDoList = models.ToDoList{}
@@ -21,14 +19,12 @@ func initToDoList() {
     toDoList.AddTodoItem("Second title", true)
 }
 
-func addTodo(this js.Value, args []js.Value) interface{} {
+func addTodo(title string) {
     toDoItem := toDoList.AddTodoItem(
-        formRenderer.GetTitle(),
+        title,
         false,
     )
-    formRenderer.ClearTitleInput()
     todoListRenderer.AppendTodoItem(toDoItem)
-    return true
 }
 
 func deleteTodo(todoId int64) {
@@ -40,15 +36,17 @@ func toggleDone(todoId int64) {
 }
 
 func registerCallbacks() {
-    formRenderer.OnSubmitCb(addTodo)
+    formRenderer.OnSubmit(addTodo)
     todoListRenderer.OnDelete(deleteTodo)
     todoListRenderer.OnDone(toggleDone)
 }
 
 func renderApp() {
-    documentEl := htmlrender.GetDocumentEl()
     htmlrender.RenderElement(
-        htmlrender.GetElementById(documentEl, "app"),
+        htmlrender.GetElementById(
+            htmlrender.GetDocumentEl(),
+            "app",
+        ),
         htmlrender.ElementDef{
             Tag: "div",
             Children: []htmlrender.ElementDef{

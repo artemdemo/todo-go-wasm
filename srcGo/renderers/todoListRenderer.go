@@ -8,13 +8,13 @@ import (
     "../services"
 )
 
-type itemCb func(todoId int64)
+type itemFuncCb func(todoId int64)
 
 type TodoListRenderer struct {
     // "todoListParentEl" is parent element where to-do list itself will be rendered
     todoListParentEl js.Value
-    onDeleteCb       itemCb
-    onDoneCb         itemCb
+    onDeleteCb       itemFuncCb
+    onDoneCb         itemFuncCb
     // "dummyTodoItem" will be used here to retrieve locator classnames
     dummyTodoItem    models.ToDoItem
 }
@@ -54,11 +54,11 @@ func (this *TodoListRenderer) getItemEl(baseEl js.Value, todoItem models.ToDoIte
     )
 }
 
-func (this *TodoListRenderer) OnDelete(cb itemCb) {
+func (this *TodoListRenderer) OnDelete(cb itemFuncCb) {
     this.onDeleteCb = cb
 }
 
-func (this *TodoListRenderer) OnDone(cb itemCb) {
+func (this *TodoListRenderer) OnDone(cb itemFuncCb) {
     this.onDoneCb = cb
 }
 
