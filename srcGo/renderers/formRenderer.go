@@ -45,8 +45,8 @@ func (this *FormRenderer) RenderForm(documentEl js.Value,
             form.GetElementDef(),
         ),
     )
-    this.submitBtnEl = htmlrender.GetElementById(documentEl, "submit-todo")
-    this.titleInputEl = htmlrender.GetElementById(documentEl, "todo-title")
+    this.submitBtnEl = htmlrender.GetFirstElementByClass(documentEl, "submit-todo")
+    this.titleInputEl = htmlrender.GetFirstElementByClass(documentEl, "todo-title")
 }
 
 func (this *FormRenderer) GetBaseElDef() htmlrender.ElementDef {

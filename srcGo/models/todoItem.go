@@ -29,11 +29,19 @@ func (todoItem *ToDoItem) GetItemDeleteClassname() string {
     return todoItemDeleteClassname
 }
 
+func (todoItem *ToDoItem) GetItemDoneClassname() string {
+    return todoItemDoneClassname
+}
+
 func (todoItem *ToDoItem) GetElementDef() htmlrender.ElementDef {
     deleteBtn := Button{
         Text:      "Delete",
         BgColor:   "orange",
-        ClassName: "mr-1 text-xs",
+        Size:       ButtonSizes.XS,
+        ClassName: services.Classnames(
+            "mr-1",
+            todoItemDeleteClassname,
+        ),
         Attributes: []htmlrender.ElementAttr{
             {
                 Name: dataTodoId,
@@ -44,7 +52,8 @@ func (todoItem *ToDoItem) GetElementDef() htmlrender.ElementDef {
     doneBtn := Button{
         Text:       "Done",
         BgColor:    "green",
-        ClassName:  "text-xs",
+        Size:       ButtonSizes.XS,
+        ClassName:  todoItemDoneClassname,
         Attributes: []htmlrender.ElementAttr{
             {
                 Name: dataTodoId,
