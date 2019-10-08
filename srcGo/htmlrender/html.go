@@ -74,8 +74,8 @@ func CreateElement(elDef ElementDef) js.Value {
 }
 
 // RenderElement is rendering DOM element in provided `baseEl`
-func RenderElement(baseEl js.Value, el js.Value) {
-    baseEl.Call("appendChild", el)
+func RenderElement(baseEl js.Value, elDef ElementDef) {
+    baseEl.Call("appendChild", CreateElement(elDef))
 }
 
 // ClearElementContent is clearing element content

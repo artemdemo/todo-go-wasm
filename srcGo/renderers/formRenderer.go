@@ -46,9 +46,7 @@ func (this *FormRenderer) RenderForm(form models.Form) {
     documentEl := htmlrender.GetDocumentEl()
     htmlrender.RenderElement(
         this.formParentEl,
-        htmlrender.CreateElement(
-            form.GetElementDef(),
-        ),
+        form.GetElementDef(),
     )
     this.submitBtnEl = htmlrender.GetFirstElementByClass(
         documentEl,

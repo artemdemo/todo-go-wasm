@@ -47,7 +47,8 @@ func registerCallbacks() {
 
 func renderApp() {
     documentEl := htmlrender.GetDocumentEl()
-    baseAppEl := htmlrender.CreateElement(
+    htmlrender.RenderElement(
+        htmlrender.GetElementById(documentEl, "app"),
         htmlrender.ElementDef{
             Tag: "div",
             Children: []htmlrender.ElementDef{
@@ -56,10 +57,6 @@ func renderApp() {
                 loggerRenderer.GetElementDef(),
             },
         },
-    )
-    htmlrender.RenderElement(
-        htmlrender.GetElementById(documentEl, "app"),
-        baseAppEl,
     )
 }
 

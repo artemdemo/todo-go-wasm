@@ -28,14 +28,12 @@ func NewLoggerRenderer() *LoggerRenderer {
 func (this *LoggerRenderer) AppendLogMsg(msg string) {
     htmlrender.RenderElement(
         this.loggerParentEl,
-        htmlrender.CreateElement(
-            htmlrender.ElementDef{
-                Tag: "p",
-                Children: []htmlrender.ElementDef{
-                    { InnerText: msg },
-                },
+        htmlrender.ElementDef{
+            Tag: "p",
+            Children: []htmlrender.ElementDef{
+                { InnerText: msg },
             },
-        ),
+        },
     )
 }
 

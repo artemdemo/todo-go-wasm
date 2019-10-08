@@ -76,9 +76,7 @@ func (this *TodoListRenderer) RenderTodoList(todoList models.ToDoList) {
     htmlrender.ClearElementContent(this.todoListParentEl)
     htmlrender.RenderElement(
         this.todoListParentEl,
-        htmlrender.CreateElement(
-            todoList.GetElementDef(),
-        ),
+        todoList.GetElementDef(),
     )
     this.todoListParentEl.Call("addEventListener", "click", js.FuncOf(this.clickOnTodoList))
 }
@@ -88,8 +86,6 @@ func (this *TodoListRenderer) RenderTodoList(todoList models.ToDoList) {
 func (this *TodoListRenderer) AppendTodoItem(todoItem *models.ToDoItem) {
    htmlrender.RenderElement(
        this.todoListParentEl,
-       htmlrender.CreateElement(
-           todoItem.GetElementDef(),
-       ),
+       todoItem.GetElementDef(),
    )
 }
