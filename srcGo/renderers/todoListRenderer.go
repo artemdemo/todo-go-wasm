@@ -36,7 +36,7 @@ func NewTodoListRender() *TodoListRenderer {
 func (this *TodoListRenderer) clickOnTodoList(_this js.Value, args []js.Value) interface{} {
     target := args[0].Get("target")
     todoDeleteClassname := this.dummyTodoItem.GetTodoItemDeleteClassname()
-    todoItemDoneClassname := this.dummyTodoItem.GetTodoItemDoneClassname();
+    todoItemDoneClassname := this.dummyTodoItem.GetTodoItemDoneClassname()
     if htmlrender.ElementHasClass(target, todoDeleteClassname) {
         todoId := this.dummyTodoItem.GetTodoIdFromEl(target)
         this.onDeleteCb(todoId)
