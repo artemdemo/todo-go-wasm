@@ -1,15 +1,13 @@
 package renderers
 
 import (
-    "syscall/js"
-
     "../htmlrender"
     "../services"
 )
 
 type LoggerRenderer struct {
     // "loggerParentEl" is parent element where form itself will be rendered
-    loggerParentEl js.Value
+    loggerParentEl htmlrender.DomEl
 }
 
 const (
@@ -18,16 +16,16 @@ const (
 
 func NewLoggerRenderer() *LoggerRenderer {
     loggerR := new(LoggerRenderer)
-    loggerR.loggerParentEl = htmlrender.GetFirstElementByClass(
-        htmlrender.GetDocumentEl(),
-        appLoggerClassname,
-    )
+    el := (htmlrender.DocumentEl{}).GetFirstElementByClass(appLoggerClassname)
+    loggerParentEl, ok := el.(htmlrender.DomEl)
+    if ok {
+        loggerR.loggerParentEl = loggerParentEl
+    }
     return loggerR
 }
 
 func (this *LoggerRenderer) AppendLogMsg(msg string) {
-    htmlrender.RenderElement(
-        this.loggerParentEl,
+    this.loggerParentEl.AppendChild(
         htmlrender.ElementDef{
             Tag: "p",
             Children: []htmlrender.ElementDef{

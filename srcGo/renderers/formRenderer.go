@@ -11,9 +11,9 @@ type submitCb func(title string)
 
 type FormRenderer struct {
     // "formParentEl" is parent element where form itself will be rendered
-    formParentEl js.Value
-    submitBtnEl  js.Value
-    titleInputEl js.Value
+    formParentEl htmlrender.DomEl
+    submitBtnEl  htmlrender.DomEl
+    titleInputEl htmlrender.InputEl
     onSubmitCb   submitCb
     // "dummyForm" will be used here to retrieve locator classnames
     dummyForm    models.Form
@@ -25,10 +25,11 @@ const (
 
 func NewFormRenderer() *FormRenderer {
     formR := new(FormRenderer)
-    formR.formParentEl = htmlrender.GetFirstElementByClass(
-        htmlrender.GetDocumentEl(),
-        formParentClassName,
-    )
+    el := (htmlrender.DocumentEl{}).GetFirstElementByClass(formParentClassName)
+    formParentEl, ok := el.(htmlrender.DomEl)
+    if ok {
+        formR.formParentEl = formParentEl
+    }
     formR.dummyForm = models.Form{}
     return formR
 }
@@ -39,9 +40,9 @@ func (this *FormRenderer) OnSubmit(cb submitCb) {
 
 func (this *FormRenderer) clickOnSubmit(js.Value, []js.Value) interface{} {
     this.onSubmitCb(
-        this.titleInputEl.Get("value").String(),
+        this.titleInputEl.GetValue(),
     )
-    this.titleInputEl.Set("value", "")
+    this.titleInputEl.SetValue("s")
     return ""
 }
 
