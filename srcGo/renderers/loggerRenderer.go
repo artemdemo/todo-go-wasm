@@ -16,9 +16,8 @@ const (
 
 func NewLoggerRenderer() *LoggerRenderer {
     loggerR := new(LoggerRenderer)
-    el := (htmlrender.DocumentEl{}).GetFirstElementByClass(appLoggerClassname)
-    loggerParentEl, ok := el.(htmlrender.DomEl)
-    if ok {
+    loggerParent := (htmlrender.DocumentEl{}).GetFirstElementByClass(appLoggerClassname)
+    if loggerParentEl, ok := loggerParent.(htmlrender.DomEl); ok {
         loggerR.loggerParentEl = loggerParentEl
     }
     return loggerR

@@ -60,8 +60,3 @@ func CreateElement(elDef ElementDef) DomEl {
     }
     return el
 }
-
-// ClearElementContent is clearing element content
-func ClearElementContent(el DomEl) {
-    el.SetInnerHtml("")
-}

@@ -1,8 +1,6 @@
 package renderers
 
 import (
-    "syscall/js"
-
     "../htmlrender"
     "../models"
     "../services"
@@ -12,7 +10,7 @@ type itemFuncCb func(todoId int64)
 
 type TodoListRenderer struct {
     // "todoListParentEl" is parent element where to-do list itself will be rendered
-    todoListParentEl js.Value
+    todoListParentEl htmlrender.DomEl
     onDeleteCb       itemFuncCb
     onDoneCb         itemFuncCb
     // "dummyTodoItem" will be used here to retrieve locator classnames
@@ -25,33 +23,37 @@ const (
 
 func NewTodoListRender() *TodoListRenderer {
     todoListR := new(TodoListRenderer)
-    todoListR.todoListParentEl = htmlrender.GetFirstElementByClass(
-        htmlrender.GetDocumentEl(),
-        todoListClassname,
-    )
+    todoListParent := (htmlrender.DocumentEl{}).GetFirstElementByClass(todoListClassname)
+    if todoListParentEl, ok := todoListParent.(htmlrender.DomEl); ok {
+        todoListR.todoListParentEl = todoListParentEl
+    }
     todoListR.dummyTodoItem = models.ToDoItem{}
     return todoListR
 }
 
-func (this *TodoListRenderer) clickOnTodoList(_this js.Value, args []js.Value) interface{} {
-    target := args[0].Get("target")
+func (this *TodoListRenderer) clickOnTodoList(evt htmlrender.Event) {
+    target := evt.GetTarget()
     todoDeleteClassname := this.dummyTodoItem.GetTodoItemDeleteClassname()
     todoItemDoneClassname := this.dummyTodoItem.GetTodoItemDoneClassname()
-    if htmlrender.ElementHasClass(target, todoDeleteClassname) {
-        todoId := this.dummyTodoItem.GetTodoIdFromEl(target)
-        this.onDeleteCb(todoId)
-    } else if htmlrender.ElementHasClass(target, todoItemDoneClassname) {
-        todoId := this.dummyTodoItem.GetTodoIdFromEl(target)
-        this.onDoneCb(todoId)
+    if targetEl, ok := target.(htmlrender.DomEl); ok {
+        if targetEl.HasClass(todoDeleteClassname) {
+            todoId := this.dummyTodoItem.GetTodoIdFromEl(targetEl.El)
+            this.onDeleteCb(todoId)
+        } else if targetEl.HasClass(todoItemDoneClassname) {
+            todoId := this.dummyTodoItem.GetTodoIdFromEl(targetEl.El)
+            this.onDoneCb(todoId)
+        }
     }
-    return ""
 }
 
-func (this *TodoListRenderer) getItemEl(baseEl js.Value, todoItem models.ToDoItem) js.Value {
-    return htmlrender.GetFirstElementByClass(
-        baseEl,
+func (this *TodoListRenderer) getItemEl(baseEl htmlrender.DomEl, todoItem models.ToDoItem) interface{} {
+    el := baseEl.GetFirstElementByClass(
         todoItem.GetItemIdClassname(),
     )
+    if itemEl, ok := el.(htmlrender.DomEl); ok {
+        return itemEl
+    }
+    return nil
 }
 
 func (this *TodoListRenderer) OnDelete(cb itemFuncCb) {
@@ -73,19 +75,18 @@ func (this *TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
 }
 
 func (this *TodoListRenderer) RenderTodoList(todoList models.ToDoList) {
-    htmlrender.ClearElementContent(this.todoListParentEl)
-    htmlrender.RenderElement(
-        this.todoListParentEl,
+    this.todoListParentEl.SetInnerHtml("")
+    this.todoListParentEl.AppendChild(
         todoList.GetElementDef(),
     )
-    this.todoListParentEl.Call("addEventListener", "click", js.FuncOf(this.clickOnTodoList))
+    this.todoListParentEl.AddEventListener(
+        "click",
+        this.clickOnTodoList,
+    )
 }
 
-// AppendTodoItem is adding item to the DOM.
-// And setting link to the corresponded DOM element.
 func (this *TodoListRenderer) AppendTodoItem(todoItem *models.ToDoItem) {
-   htmlrender.RenderElement(
-       this.todoListParentEl,
-       todoItem.GetElementDef(),
-   )
+    this.todoListParentEl.AppendChild(
+        todoItem.GetElementDef(),
+    )
 }

@@ -1,8 +1,6 @@
 package renderers
 
 import (
-    "syscall/js"
-
     "../htmlrender"
     "../models"
 )
@@ -25,9 +23,8 @@ const (
 
 func NewFormRenderer() *FormRenderer {
     formR := new(FormRenderer)
-    el := (htmlrender.DocumentEl{}).GetFirstElementByClass(formParentClassName)
-    formParentEl, ok := el.(htmlrender.DomEl)
-    if ok {
+    formParent := (htmlrender.DocumentEl{}).GetFirstElementByClass(formParentClassName)
+    if formParentEl, ok := formParent.(htmlrender.DomEl); ok {
         formR.formParentEl = formParentEl
     }
     formR.dummyForm = models.Form{}
@@ -38,29 +35,32 @@ func (this *FormRenderer) OnSubmit(cb submitCb) {
     this.onSubmitCb = cb
 }
 
-func (this *FormRenderer) clickOnSubmit(js.Value, []js.Value) interface{} {
+func (this *FormRenderer) clickOnSubmit(evt htmlrender.Event) {
     this.onSubmitCb(
         this.titleInputEl.GetValue(),
     )
     this.titleInputEl.SetValue("s")
-    return ""
 }
 
 func (this *FormRenderer) RenderForm(form models.Form) {
-    documentEl := htmlrender.GetDocumentEl()
-    htmlrender.RenderElement(
-        this.formParentEl,
+    this.formParentEl.AppendChild(
         form.GetElementDef(),
     )
-    this.submitBtnEl = htmlrender.GetFirstElementByClass(
-        documentEl,
+
+    submitBtn := (htmlrender.DocumentEl{}).GetFirstElementByClass(
         this.dummyForm.GetAddTodoButtonClassname(),
     )
-    this.titleInputEl = htmlrender.GetFirstElementByClass(
-        documentEl,
+    if submitBtnEl, ok := submitBtn.(htmlrender.DomEl); ok {
+        this.submitBtnEl = submitBtnEl
+        this.submitBtnEl.AddEventListener("click", this.clickOnSubmit)
+    }
+
+    titleInput := (htmlrender.DocumentEl{}).GetFirstElementByClass(
         this.dummyForm.GetTodoTitleInputClassname(),
     )
-    this.submitBtnEl.Call("addEventListener", "click", js.FuncOf(this.clickOnSubmit))
+    if titleInputEl, ok := titleInput.(htmlrender.InputEl); ok {
+        this.titleInputEl = titleInputEl
+    }
 }
 
 func (this *FormRenderer) GetBaseElDef() htmlrender.ElementDef {
