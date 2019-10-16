@@ -1,9 +1,5 @@
 package htmlrender
 
-import (
-    "syscall/js"
-)
-
 // ElementAttr is an DOM element attribute
 type ElementAttr struct {
     Name    string
@@ -24,62 +20,43 @@ type ElementDef struct {
     Children   []ElementDef
 }
 
-var _documentEL js.Value
-
-// GetDocumentEl is allocating and returning reference to global `document`
-func GetDocumentEl() js.Value {
-    if _documentEL.Type() == js.TypeUndefined {
-        _documentEL = js.Global().Get("document")
-    }
-    return _documentEL
-}
+var documentEL = NewDocumentEl()
 
 // CreateElement is creating DOM element based on ElementDef
-func CreateElement(elDef ElementDef) js.Value {
-    var el js.Value
-    var documentEl = GetDocumentEl()
+func CreateElement(elDef ElementDef) *DomEl {
+    var el *DomEl
     // If there is no Tag name, then it's text node
     // and text node can't have attributes or children
     if elDef.Tag != "" {
-        el = documentEl.Call("createElement", elDef.Tag)
+        el = documentEL.CreateElement(elDef.Tag)
         if elDef.ClassName != "" {
-            el.Call("setAttribute", "class", elDef.ClassName)
+            el.SetAttribute("class", elDef.ClassName)
         }
         if elDef.ID != "" {
-            el.Call("setAttribute", "id", elDef.ID)
+            el.SetAttribute("id", elDef.ID)
         }
         if len(elDef.Attributes) > 0 {
             attributesAmount := len(elDef.Attributes)
             for i := 0; i < attributesAmount; i++ {
                 attr := elDef.Attributes[i]
-                el.Call("setAttribute", attr.Name, attr.Content)
+                el.SetAttribute(attr.Name, attr.Content)
             }
         }
         // If there are both Tag name and InnerText
         // then innerText will come before Children
         if elDef.InnerText != "" {
-            el.Set("innerText", elDef.InnerText)
+            el.SetInnerText(elDef.InnerText)
         } else if len(elDef.Children) > 0 {
             childrenAmount := len(elDef.Children)
             for i := 0; i < childrenAmount; i++ {
                 childEl := CreateElement(elDef.Children[i])
-                el.Call("appendChild", childEl)
+                el.AppendChild(childEl)
             }
         }
     // If there is InnerText, without Tag,
     // then I'll render text node
     } else if elDef.InnerText != "" {
-        el = documentEl.Call("createTextNode", elDef.InnerText)
+        el = documentEL.CreateTextNode(elDef.InnerText)
     }
     return el
-}
-
-// RenderElement is rendering DOM element in provided `baseEl`
-func RenderElement(baseEl js.Value, elDef ElementDef) {
-    baseEl.Call("appendChild", CreateElement(elDef))
-}
-
-// ClearElementContent is clearing element content
-func ClearElementContent(el js.Value) {
-    el.Set("innerHtml", "")
 }
