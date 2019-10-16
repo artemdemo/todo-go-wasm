@@ -4,13 +4,14 @@ import (
     "../htmlrender"
     "../models"
     "../services"
+    "fmt"
 )
 
 type itemFuncCb func(todoId int64)
 
 type TodoListRenderer struct {
     // "todoListParentEl" is parent element where to-do list itself will be rendered
-    todoListParentEl htmlrender.DomEl
+    todoListParentEl *htmlrender.DomEl
     onDeleteCb       itemFuncCb
     onDoneCb         itemFuncCb
     // "dummyTodoItem" will be used here to retrieve locator classnames
@@ -24,8 +25,11 @@ const (
 func NewTodoListRender() *TodoListRenderer {
     todoListR := new(TodoListRenderer)
     todoListParent := htmlrender.NewDocumentEl().GetFirstElementByClass(todoListClassname)
-    if todoListParentEl, ok := todoListParent.(htmlrender.DomEl); ok {
+    if todoListParentEl, ok := todoListParent.(*htmlrender.DomEl); ok {
         todoListR.todoListParentEl = todoListParentEl
+    } else {
+        fmt.Printf("todoListParent is not of type *htmlrender.DomEl, got %T instead\n", todoListParent)
+        panic("todoListParent is not of type *htmlrender.DomEl")
     }
     todoListR.dummyTodoItem = models.ToDoItem{}
     return todoListR
@@ -35,7 +39,7 @@ func (this *TodoListRenderer) clickOnTodoList(evt htmlrender.Event) {
     target := evt.GetTarget()
     todoDeleteClassname := this.dummyTodoItem.GetTodoItemDeleteClassname()
     todoItemDoneClassname := this.dummyTodoItem.GetTodoItemDoneClassname()
-    if targetEl, ok := target.(htmlrender.DomEl); ok {
+    if targetEl, ok := target.(*htmlrender.DomEl); ok {
         if targetEl.HasClass(todoDeleteClassname) {
             todoId := this.dummyTodoItem.GetTodoIdFromEl(targetEl.GetEl())
             this.onDeleteCb(todoId)
@@ -43,6 +47,9 @@ func (this *TodoListRenderer) clickOnTodoList(evt htmlrender.Event) {
             todoId := this.dummyTodoItem.GetTodoIdFromEl(targetEl.GetEl())
             this.onDoneCb(todoId)
         }
+    } else {
+        fmt.Printf("target is not of type *htmlrender.DomEl, got %T instead\n", target)
+        panic("target is not of type *htmlrender.DomEl")
     }
 }
 
