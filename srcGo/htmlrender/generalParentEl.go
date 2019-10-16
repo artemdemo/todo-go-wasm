@@ -6,7 +6,7 @@ import (
 )
 
 type GeneralParentEl struct {
-    el
+    El js.Value
 }
 
 func wrapEl(el js.Value) interface{} {

@@ -3,6 +3,7 @@ package renderers
 import (
     "../htmlrender"
     "../models"
+    "fmt"
 )
 
 type submitCb func(title string)
@@ -26,6 +27,9 @@ func NewFormRenderer() *FormRenderer {
     formParent := htmlrender.NewDocumentEl().GetFirstElementByClass(formParentClassName)
     if formParentEl, ok := formParent.(htmlrender.DomEl); ok {
         formR.formParentEl = formParentEl
+    } else {
+        fmt.Printf("formParent is not of type htmlrender.DomEl, got %T instead\n", formParent)
+        panic("formParent is not of type htmlrender.DomEl")
     }
     formR.dummyForm = models.Form{}
     return formR
