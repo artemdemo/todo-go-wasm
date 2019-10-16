@@ -23,7 +23,7 @@ const (
 
 func NewTodoListRender() *TodoListRenderer {
     todoListR := new(TodoListRenderer)
-    todoListParent := (htmlrender.DocumentEl{}).GetFirstElementByClass(todoListClassname)
+    todoListParent := htmlrender.NewDocumentEl().GetFirstElementByClass(todoListClassname)
     if todoListParentEl, ok := todoListParent.(htmlrender.DomEl); ok {
         todoListR.todoListParentEl = todoListParentEl
     }

@@ -6,7 +6,7 @@ import (
 )
 
 type GeneralParentEl struct {
-    El js.Value
+    el
 }
 
 func wrapEl(el js.Value) interface{} {
@@ -15,7 +15,9 @@ func wrapEl(el js.Value) interface{} {
         if tagName == "input" {
             return InputEl{El: el}
         }
-        return DomEl{El: el}
+        domEl := new(DomEl)
+        domEl.El = el
+        return domEl
     }
     return nil
 }
@@ -49,4 +51,24 @@ func (genParEl *GeneralParentEl) AppendChild(child interface{}) {
     default:
         panic("Unknown child type")
     }
+}
+
+////
+
+func (genParEl *GeneralParentEl) AddEventListener(evtType string, cb func(evt Event)) {
+    eventCb := func(this js.Value, args []js.Value) interface{} {
+        target := args[0].Get("target")
+        cb(Event{target})
+        return nil
+    }
+    genParEl.El.Call("addEventListener", evtType, js.FuncOf(eventCb))
+}
+
+func (genParEl *GeneralParentEl) IsDefined() bool {
+    return genParEl.El.Type() == js.TypeUndefined
+}
+
+func (genParEl *GeneralParentEl) HasClass(className string) bool  {
+    haystack := genParEl.El.Get("className").String()
+    return strings.Contains(haystack, className)
 }

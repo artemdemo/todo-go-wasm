@@ -2,23 +2,24 @@ package htmlrender
 
 import "syscall/js"
 
-type DocumentEl struct {
-    *GeneralParentEl
-    El js.Value
+type documentEl struct {
+    GeneralParentEl
 }
 
-func (docEl *DocumentEl) getDocumentEl() js.Value {
-    return js.Global().Get("document")
+func NewDocumentEl() *documentEl {
+    docEl := new(documentEl)
+    docEl.El = js.Global().Get("document")
+    return docEl
 }
 
-func (docEl *DocumentEl) CreateElement(tagName string) DomEl {
-    return DomEl{
-        El: docEl.getDocumentEl().Call("createElement", tagName),
-    }
+func (docEl *documentEl) CreateElement(tagName string) *DomEl {
+    domEl := new(DomEl)
+    domEl.El = docEl.El.Call("createElement", tagName)
+    return domEl
 }
 
-func (docEl *DocumentEl) CreateTextNode(text string) DomEl {
-    return DomEl{
-        El: docEl.getDocumentEl().Call("createTextNode", text),
-    }
+func (docEl *documentEl) CreateTextNode(text string) *DomEl {
+    domEl := new(DomEl)
+    domEl.El = docEl.El.Call("createTextNode", text)
+    return domEl
 }

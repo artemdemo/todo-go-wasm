@@ -6,7 +6,7 @@ import (
 )
 
 type GeneralEl struct {
-    El js.Value
+    el
 }
 
 func (genEl *GeneralEl) AddEventListener(evtType string, cb func(evt Event)) {

@@ -1,11 +1,8 @@
 package htmlrender
 
-import "syscall/js"
-
 type DomEl struct {
-    *GeneralEl
-    *GeneralParentEl
-    El js.Value
+    // GeneralEl
+    GeneralParentEl
 }
 
 func (domEl *DomEl) SetAttribute(attrName string, value string) {

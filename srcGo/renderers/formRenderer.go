@@ -23,7 +23,7 @@ const (
 
 func NewFormRenderer() *FormRenderer {
     formR := new(FormRenderer)
-    formParent := (htmlrender.DocumentEl{}).GetFirstElementByClass(formParentClassName)
+    formParent := htmlrender.NewDocumentEl().GetFirstElementByClass(formParentClassName)
     if formParentEl, ok := formParent.(htmlrender.DomEl); ok {
         formR.formParentEl = formParentEl
     }
@@ -47,7 +47,7 @@ func (this *FormRenderer) RenderForm(form models.Form) {
         form.GetElementDef(),
     )
 
-    submitBtn := (htmlrender.DocumentEl{}).GetFirstElementByClass(
+    submitBtn := htmlrender.NewDocumentEl().GetFirstElementByClass(
         this.dummyForm.GetAddTodoButtonClassname(),
     )
     if submitBtnEl, ok := submitBtn.(htmlrender.DomEl); ok {
@@ -55,7 +55,7 @@ func (this *FormRenderer) RenderForm(form models.Form) {
         this.submitBtnEl.AddEventListener("click", this.clickOnSubmit)
     }
 
-    titleInput := (htmlrender.DocumentEl{}).GetFirstElementByClass(
+    titleInput := htmlrender.NewDocumentEl().GetFirstElementByClass(
         this.dummyForm.GetTodoTitleInputClassname(),
     )
     if titleInputEl, ok := titleInput.(htmlrender.InputEl); ok {

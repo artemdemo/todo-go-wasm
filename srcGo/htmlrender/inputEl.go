@@ -3,7 +3,7 @@ package htmlrender
 import "syscall/js"
 
 type InputEl struct {
-    *GeneralEl
+    GeneralEl
     El js.Value
 }
 

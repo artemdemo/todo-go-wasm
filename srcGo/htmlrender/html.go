@@ -20,11 +20,11 @@ type ElementDef struct {
     Children   []ElementDef
 }
 
-var documentEL = DocumentEl{}
+var documentEL = NewDocumentEl()
 
 // CreateElement is creating DOM element based on ElementDef
-func CreateElement(elDef ElementDef) DomEl {
-    var el DomEl
+func CreateElement(elDef ElementDef) *DomEl {
+    var el *DomEl
     // If there is no Tag name, then it's text node
     // and text node can't have attributes or children
     if elDef.Tag != "" {

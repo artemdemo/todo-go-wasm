@@ -42,33 +42,36 @@ func registerCallbacks() {
 }
 
 func renderApp() {
-    htmlrender.RenderElement(
-        htmlrender.GetElementById(
-            htmlrender.GetDocumentEl(),
-            "app",
-        ),
-        htmlrender.ElementDef{
-            Tag: "div",
-            Children: []htmlrender.ElementDef{
-                formRenderer.GetBaseElDef(),
-                todoListRenderer.GetBaseElDef(),
-                loggerRenderer.GetElementDef(),
+    fmt.Println("-> renderApp()")
+    app := htmlrender.NewDocumentEl().GetElementById("app")
+    if appEl, ok := app.(htmlrender.DomEl); ok {
+        appEl.AppendChild(
+            htmlrender.ElementDef{
+                Tag: "div",
+                Children: []htmlrender.ElementDef{
+                    formRenderer.GetBaseElDef(),
+                    todoListRenderer.GetBaseElDef(),
+                    loggerRenderer.GetElementDef(),
+                },
             },
-        },
-    )
+        )
+    }
 }
 
 func renderForm() {
+    fmt.Println("-> renderForm()")
     formRenderer = renderers.NewFormRenderer()
     formRenderer.RenderForm(form)
 }
 
 func renderTodoList() {
+    fmt.Println("-> renderTodoList()")
     todoListRenderer = renderers.NewTodoListRender()
     todoListRenderer.RenderTodoList(toDoList)
 }
 
 func renderLogger() {
+    fmt.Println("-> renderLogger()")
     loggerRenderer = renderers.NewLoggerRenderer()
 }
 
