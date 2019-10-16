@@ -3,11 +3,12 @@ package renderers
 import (
     "../htmlrender"
     "../services"
+    "fmt"
 )
 
 type LoggerRenderer struct {
     // "loggerParentEl" is parent element where form itself will be rendered
-    loggerParentEl htmlrender.DomEl
+    loggerParentEl *htmlrender.DomEl
 }
 
 const (
@@ -17,8 +18,11 @@ const (
 func NewLoggerRenderer() *LoggerRenderer {
     loggerR := new(LoggerRenderer)
     loggerParent := htmlrender.NewDocumentEl().GetFirstElementByClass(appLoggerClassname)
-    if loggerParentEl, ok := loggerParent.(htmlrender.DomEl); ok {
+    if loggerParentEl, ok := loggerParent.(*htmlrender.DomEl); ok {
         loggerR.loggerParentEl = loggerParentEl
+    } else {
+        fmt.Printf("loggerParent is not of type *htmlrender.DomEl, got %T instead\n", loggerParent)
+        panic("loggerParent is not of type *htmlrender.DomEl")
     }
     return loggerR
 }

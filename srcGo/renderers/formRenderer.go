@@ -43,7 +43,7 @@ func (this *FormRenderer) clickOnSubmit(evt htmlrender.Event) {
     this.onSubmitCb(
         this.titleInputEl.GetValue(),
     )
-    this.titleInputEl.SetValue("s")
+    this.titleInputEl.SetValue("")
 }
 
 func (this *FormRenderer) RenderForm(form models.Form) {
