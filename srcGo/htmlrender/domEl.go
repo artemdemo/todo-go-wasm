@@ -6,5 +6,6 @@ type DomEl struct {
 }
 
 func (domEl *DomEl) SetAttribute(attrName string, value string) {
-    domEl.El.Call("setAttribute", attrName, value)
+    el := domEl.GetEl()
+    el.Call("setAttribute", attrName, value)
 }

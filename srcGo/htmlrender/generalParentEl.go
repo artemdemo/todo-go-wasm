@@ -6,7 +6,7 @@ import (
 )
 
 type GeneralParentEl struct {
-    El js.Value
+    el js.Value
 }
 
 func wrapEl(el js.Value) interface{} {
@@ -16,27 +16,31 @@ func wrapEl(el js.Value) interface{} {
             return InputEl{El: el}
         }
         domEl := new(DomEl)
-        domEl.El = el
+        domEl.el = el
         return domEl
     }
     return nil
 }
 
+func (genParEl *GeneralParentEl) GetEl() js.Value {
+    return genParEl.el
+}
+
 func (genParEl *GeneralParentEl) SetInnerText(text string) {
-    genParEl.El.Set("innerText", text)
+    genParEl.el.Set("innerText", text)
 }
 
 func (genParEl *GeneralParentEl) SetInnerHtml(html string) {
-    genParEl.El.Set("innerHtml", html)
+    genParEl.el.Set("innerHtml", html)
 }
 
 func (genParEl *GeneralParentEl) GetElementById(id string) interface{} {
-    el := genParEl.El.Call("getElementById", id)
+    el := genParEl.el.Call("getElementById", id)
     return wrapEl(el)
 }
 
 func (genParEl *GeneralParentEl) GetFirstElementByClass(className string) interface{} {
-    el := genParEl.El.Call("getElementsByClassName", className).Index(0)
+    el := genParEl.el.Call("getElementsByClassName", className).Index(0)
     return wrapEl(el)
 }
 
@@ -44,12 +48,10 @@ func (genParEl *GeneralParentEl) AppendChild(child interface{}) {
     switch childEl := child.(type) {
     case DomEl:
     case *DomEl:
-    case GeneralEl:
-    case *GeneralEl:
-        genParEl.El.Call("appendChild", childEl.El)
+        genParEl.el.Call("appendChild", childEl.GetEl())
     case ElementDef:
         domEl := CreateElement(childEl)
-        genParEl.El.Call("appendChild", domEl.El)
+        genParEl.el.Call("appendChild", domEl.el)
     default:
         panic("Unknown child type")
     }
@@ -63,14 +65,14 @@ func (genParEl *GeneralParentEl) AddEventListener(evtType string, cb func(evt Ev
         cb(Event{target})
         return nil
     }
-    genParEl.El.Call("addEventListener", evtType, js.FuncOf(eventCb))
+    genParEl.el.Call("addEventListener", evtType, js.FuncOf(eventCb))
 }
 
 func (genParEl *GeneralParentEl) IsDefined() bool {
-    return genParEl.El.Type() == js.TypeUndefined
+    return genParEl.el.Type() == js.TypeUndefined
 }
 
 func (genParEl *GeneralParentEl) HasClass(className string) bool  {
-    haystack := genParEl.El.Get("className").String()
+    haystack := genParEl.el.Get("className").String()
     return strings.Contains(haystack, className)
 }

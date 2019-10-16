@@ -6,7 +6,11 @@ import (
 )
 
 type GeneralEl struct {
-    El js.Value
+    el js.Value
+}
+
+func (genEl *GeneralEl) GetEl() js.Value {
+    return genEl.el
 }
 
 func (genEl *GeneralEl) AddEventListener(evtType string, cb func(evt Event)) {
@@ -15,14 +19,14 @@ func (genEl *GeneralEl) AddEventListener(evtType string, cb func(evt Event)) {
         cb(Event{target})
         return nil
     }
-    genEl.El.Call("addEventListener", evtType, js.FuncOf(eventCb))
+    genEl.el.Call("addEventListener", evtType, js.FuncOf(eventCb))
 }
 
 func (genEl *GeneralEl) IsDefined() bool {
-    return genEl.El.Type() == js.TypeUndefined
+    return genEl.el.Type() == js.TypeUndefined
 }
 
 func (genEl *GeneralEl) HasClass(className string) bool  {
-    haystack := genEl.El.Get("className").String()
+    haystack := genEl.el.Get("className").String()
     return strings.Contains(haystack, className)
 }

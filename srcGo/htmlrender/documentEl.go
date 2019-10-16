@@ -8,18 +8,18 @@ type documentEl struct {
 
 func NewDocumentEl() *documentEl {
     docEl := new(documentEl)
-    docEl.El = js.Global().Get("document")
+    docEl.el = js.Global().Get("document")
     return docEl
 }
 
 func (docEl *documentEl) CreateElement(tagName string) *DomEl {
     domEl := new(DomEl)
-    domEl.El = docEl.El.Call("createElement", tagName)
+    domEl.el = docEl.el.Call("createElement", tagName)
     return domEl
 }
 
 func (docEl *documentEl) CreateTextNode(text string) *DomEl {
     domEl := new(DomEl)
-    domEl.El = docEl.El.Call("createTextNode", text)
+    domEl.el = docEl.el.Call("createTextNode", text)
     return domEl
 }

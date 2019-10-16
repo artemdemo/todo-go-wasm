@@ -37,10 +37,10 @@ func (this *TodoListRenderer) clickOnTodoList(evt htmlrender.Event) {
     todoItemDoneClassname := this.dummyTodoItem.GetTodoItemDoneClassname()
     if targetEl, ok := target.(htmlrender.DomEl); ok {
         if targetEl.HasClass(todoDeleteClassname) {
-            todoId := this.dummyTodoItem.GetTodoIdFromEl(targetEl.El)
+            todoId := this.dummyTodoItem.GetTodoIdFromEl(targetEl.GetEl())
             this.onDeleteCb(todoId)
         } else if targetEl.HasClass(todoItemDoneClassname) {
-            todoId := this.dummyTodoItem.GetTodoIdFromEl(targetEl.El)
+            todoId := this.dummyTodoItem.GetTodoIdFromEl(targetEl.GetEl())
             this.onDoneCb(todoId)
         }
     }
