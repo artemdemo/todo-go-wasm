@@ -43,7 +43,9 @@ func (genParEl *GeneralParentEl) GetFirstElementByClass(className string) interf
 func (genParEl *GeneralParentEl) AppendChild(child interface{}) {
     switch childEl := child.(type) {
     case DomEl:
+    case *DomEl:
     case GeneralEl:
+    case *GeneralEl:
         genParEl.El.Call("appendChild", childEl.El)
     case ElementDef:
         domEl := CreateElement(childEl)
