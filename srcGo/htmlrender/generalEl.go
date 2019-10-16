@@ -13,10 +13,11 @@ func (genEl *GeneralEl) GetEl() js.Value {
     return genEl.el
 }
 
-func (genEl *GeneralEl) AddEventListener(evtType string, cb func(evt Event)) {
+func (genEl *GeneralEl) AddEventListener(evtType string, cb func(evt *Event)) {
     eventCb := func(this js.Value, args []js.Value) interface{} {
-        target := args[0].Get("target")
-        cb(Event{target})
+        evt := new(Event)
+        evt.ev = args[0]
+        cb(evt)
         return nil
     }
     genEl.el.Call("addEventListener", evtType, js.FuncOf(eventCb))

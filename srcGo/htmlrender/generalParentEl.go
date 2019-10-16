@@ -61,10 +61,11 @@ func (genParEl *GeneralParentEl) AppendChild(child interface{}) {
 
 ////
 
-func (genParEl *GeneralParentEl) AddEventListener(evtType string, cb func(evt Event)) {
+func (genParEl *GeneralParentEl) AddEventListener(evtType string, cb func(evt *Event)) {
     eventCb := func(this js.Value, args []js.Value) interface{} {
-        target := args[0].Get("target")
-        cb(Event{target})
+        evt := new(Event)
+        evt.ev = args[0]
+        cb(evt)
         return nil
     }
     genParEl.el.Call("addEventListener", evtType, js.FuncOf(eventCb))

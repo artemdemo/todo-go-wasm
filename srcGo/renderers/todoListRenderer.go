@@ -35,7 +35,7 @@ func NewTodoListRender() *TodoListRenderer {
     return todoListR
 }
 
-func (this *TodoListRenderer) clickOnTodoList(evt htmlrender.Event) {
+func (this *TodoListRenderer) clickOnTodoList(evt *htmlrender.Event) {
     target := evt.GetTarget()
     todoDeleteClassname := this.dummyTodoItem.GetTodoItemDeleteClassname()
     todoItemDoneClassname := this.dummyTodoItem.GetTodoItemDoneClassname()

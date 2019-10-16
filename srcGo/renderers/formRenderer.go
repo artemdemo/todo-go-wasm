@@ -39,7 +39,7 @@ func (this *FormRenderer) OnSubmit(cb submitCb) {
     this.onSubmitCb = cb
 }
 
-func (this *FormRenderer) clickOnSubmit(evt htmlrender.Event) {
+func (this *FormRenderer) clickOnSubmit(evt *htmlrender.Event) {
     this.onSubmitCb(
         this.titleInputEl.GetValue(),
     )
