@@ -68,8 +68,8 @@ func (this *FormRenderer) RenderForm(form models.Form) {
     if titleInputEl, ok := titleInput.(*htmlrender.InputEl); ok {
         this.titleInputEl = titleInputEl
     } else {
-        fmt.Printf("titleInput is not of type *htmlrender.DomEl, got %T instead\n", titleInput)
-        panic("titleInput is not of type *htmlrender.DomEl")
+        fmt.Printf("titleInput is not of type *htmlrender.InputEl, got %T instead\n", titleInput)
+        panic("titleInput is not of type *htmlrender.InputEl")
     }
 }
 

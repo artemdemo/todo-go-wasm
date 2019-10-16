@@ -13,7 +13,9 @@ func wrapEl(el js.Value) interface{} {
     if el.Type() != js.TypeUndefined {
         tagName := strings.ToLower(el.Get("tagName").String())
         if tagName == "input" {
-            return InputEl{El: el}
+            inputEl := new(InputEl)
+            inputEl.el = el
+            return inputEl
         }
         domEl := new(DomEl)
         domEl.el = el
@@ -51,7 +53,7 @@ func (genParEl *GeneralParentEl) AppendChild(child interface{}) {
         genParEl.el.Call("appendChild", childEl.GetEl())
     case ElementDef:
         domEl := CreateElement(childEl)
-        genParEl.el.Call("appendChild", domEl.el)
+        genParEl.el.Call("appendChild", domEl.GetEl())
     default:
         panic("Unknown child type")
     }

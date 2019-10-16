@@ -4,13 +4,16 @@ import "syscall/js"
 
 type InputEl struct {
     GeneralEl
-    El js.Value
+}
+
+func (inputEl *InputEl) GetEl() js.Value {
+    return inputEl.el
 }
 
 func (inputEl *InputEl) GetValue() string {
-    return inputEl.El.Get("value").String()
+    return inputEl.el.Get("value").String()
 }
 
 func (inputEl *InputEl) SetValue(value string) {
-    inputEl.El.Set("value", value)
+    inputEl.el.Set("value", value)
 }
