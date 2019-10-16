@@ -3,10 +3,10 @@ package htmlrender
 import "syscall/js"
 
 type Event struct {
-    Ev js.Value
+    ev js.Value
 }
 
 func (e *Event) GetTarget() interface{} {
-    el := e.Ev.Get("target")
+    el := e.ev.Get("target")
     return wrapEl(el)
 }
