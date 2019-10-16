@@ -44,7 +44,7 @@ func registerCallbacks() {
 func renderApp() {
     fmt.Println("-> renderApp()")
     app := htmlrender.NewDocumentEl().GetElementById("app")
-    if appEl, ok := app.(htmlrender.DomEl); ok {
+    if appEl, ok := app.(*htmlrender.DomEl); ok {
         appEl.AppendChild(
             htmlrender.ElementDef{
                 Tag: "div",
@@ -55,6 +55,9 @@ func renderApp() {
                 },
             },
         )
+    } else {
+        fmt.Printf("app is not of type htmlrender.DomEl, got %T instead\n", app)
+        panic("app is not of type htmlrender.DomEl")
     }
 }
 
