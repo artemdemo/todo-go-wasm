@@ -56,7 +56,6 @@ func (todoList *ToDoList) GetElementDef() htmlrender.ElementDef {
 }
 
 // Remove `to do` from the list (by it's ID)
-// @link https://stackoverflow.com/a/55381756
 func (todoList *ToDoList) DeleteTodoById(todoId int64) (ToDoItem, bool) {
     var indexResult int
     indexFound := false
@@ -69,8 +68,11 @@ func (todoList *ToDoList) DeleteTodoById(todoId int64) (ToDoItem, bool) {
     }
     if indexFound {
         deletedTodo := todoList.items[indexResult]
-        copy(todoList.items[:indexResult], todoList.items[indexResult + 1:])
-        todoList.items = todoList.items[:len(todoList.items) - 1]
+        // Removing item from slice, while keeping the order
+        // @link https://stackoverflow.com/a/57213476
+        result := make([]ToDoItem, 0)
+        result = append(result, todoList.items[:indexResult]...)
+        todoList.items = append(result, todoList.items[indexResult + 1:]...)
         return deletedTodo, true
     }
     return ToDoItem{}, false
