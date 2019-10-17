@@ -53,14 +53,20 @@ func (this *TodoListRenderer) clickOnTodoList(evt *htmlrender.Event) {
     }
 }
 
-func (this *TodoListRenderer) getItemEl(baseEl htmlrender.DomEl, todoItem models.ToDoItem) interface{} {
-    el := baseEl.GetFirstElementByClass(
+func (this *TodoListRenderer) getItemEl(todoItem models.ToDoItem) *htmlrender.DomEl {
+    el := this.todoListParentEl.GetFirstElementByClass(
         todoItem.GetItemIdClassname(),
     )
-    if itemEl, ok := el.(htmlrender.DomEl); ok {
-        return itemEl
+    if itemEl, ok := el.(*htmlrender.DomEl); ok {
+        if itemEl.IsDefined() {
+            return itemEl
+        }
+        fmt.Println("Can't locate DomEl, by given item:")
+        fmt.Println(todoItem)
+    } else {
+        fmt.Printf("el is not of type *htmlrender.DomEl, got %T instead\n", el)
     }
-    return nil
+    panic("Can't locate DomEl, by given item")
 }
 
 func (this *TodoListRenderer) OnDelete(cb itemFuncCb) {
