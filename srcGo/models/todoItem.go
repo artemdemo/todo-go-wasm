@@ -40,6 +40,14 @@ func (todoItem * ToDoItem) GetTodoIdFromEl(el js.Value) int64 {
     return todoId
 }
 
+func (todoItem *ToDoItem) GetDone() bool {
+    return todoItem.Done
+}
+
+func (todoItem *ToDoItem) SetDone(done bool) {
+    todoItem.Done = done
+}
+
 func (todoItem *ToDoItem) GetElementDef() htmlrender.ElementDef {
     deleteBtn := Button{
         Text:      "Delete",

@@ -28,15 +28,19 @@ func addTodo(title string) {
 }
 
 func deleteTodo(todoId int64) {
-    deleteTodo, ok := toDoList.DeleteTodoById(todoId)
-    if ok {
-        todoListRenderer.DeleteTodoEl(deleteTodo)
-    }
     fmt.Println("deleteTodo", todoId)
+    deletedTodo, ok := toDoList.DeleteTodoById(todoId)
+    if ok {
+        todoListRenderer.DeleteTodoEl(*deletedTodo)
+    }
 }
 
 func toggleDone(todoId int64) {
     fmt.Println("doneTodo", todoId)
+    if todoEl, _, ok := toDoList.GetTodoById(todoId); ok {
+        todoEl.SetDone(!todoEl.GetDone())
+    }
+    fmt.Println(toDoList.GetListJson())
 }
 
 func registerCallbacks() {

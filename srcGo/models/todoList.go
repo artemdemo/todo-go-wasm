@@ -55,8 +55,7 @@ func (todoList *ToDoList) GetElementDef() htmlrender.ElementDef {
     }
 }
 
-// Remove `to do` from the list (by it's ID)
-func (todoList *ToDoList) DeleteTodoById(todoId int64) (ToDoItem, bool) {
+func (todoList *ToDoList) GetTodoById(todoId int64) (*ToDoItem, int, bool) {
     var indexResult int
     indexFound := false
     for index, item := range todoList.items {
@@ -67,7 +66,14 @@ func (todoList *ToDoList) DeleteTodoById(todoId int64) (ToDoItem, bool) {
         }
     }
     if indexFound {
-        deletedTodo := todoList.items[indexResult]
+        return &todoList.items[indexResult], indexResult, true
+    }
+    return &ToDoItem{}, 0, false
+}
+
+// Remove `to do` from the list (by it's ID)
+func (todoList *ToDoList) DeleteTodoById(todoId int64) (*ToDoItem, bool) {
+    if deletedTodo, indexResult, ok := todoList.GetTodoById(todoId); ok {
         // Removing item from slice, while keeping the order
         // @link https://stackoverflow.com/a/57213476
         result := make([]ToDoItem, 0)
@@ -75,5 +81,5 @@ func (todoList *ToDoList) DeleteTodoById(todoId int64) (ToDoItem, bool) {
         todoList.items = append(result, todoList.items[indexResult + 1:]...)
         return deletedTodo, true
     }
-    return ToDoItem{}, false
+    return &ToDoItem{}, false
 }
