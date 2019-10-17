@@ -1,6 +1,7 @@
 package htmlrender
 
 import (
+    "fmt"
     "strings"
     "syscall/js"
 )
@@ -46,6 +47,10 @@ func (genParEl *GeneralParentEl) AppendChild(child interface{}) {
 
 ////
 
+func (genParEl *GeneralParentEl) RemoveElFromDOM() {
+    fmt.Println("removing...")
+}
+
 func (genParEl *GeneralParentEl) AddEventListener(evtType string, cb func(evt *Event)) {
     eventCb := func(this js.Value, args []js.Value) interface{} {
         evt := new(Event)
@@ -57,7 +62,7 @@ func (genParEl *GeneralParentEl) AddEventListener(evtType string, cb func(evt *E
 }
 
 func (genParEl *GeneralParentEl) IsDefined() bool {
-    return genParEl.el.Type() == js.TypeUndefined
+    return genParEl.el.Type() != js.TypeUndefined
 }
 
 func (genParEl *GeneralParentEl) HasClass(className string) bool  {

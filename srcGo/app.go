@@ -28,6 +28,10 @@ func addTodo(title string) {
 }
 
 func deleteTodo(todoId int64) {
+    deleteTodo, ok := toDoList.DeleteTodoById(todoId)
+    if ok {
+        todoListRenderer.DeleteTodoEl(deleteTodo)
+    }
     fmt.Println("deleteTodo", todoId)
 }
 

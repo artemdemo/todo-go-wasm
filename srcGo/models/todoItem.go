@@ -10,7 +10,7 @@ import (
 )
 
 type ToDoItem struct {
-    ID    int    `json:"id"`
+    ID    int64  `json:"id"`
     Title string `json:"title"`
     Done  bool   `json:"done"`
 }
@@ -52,7 +52,7 @@ func (todoItem *ToDoItem) GetElementDef() htmlrender.ElementDef {
         Attributes: []htmlrender.ElementAttr{
             {
                 Name: dataTodoId,
-                Content: strconv.Itoa(todoItem.ID),
+                Content: strconv.FormatInt(todoItem.ID, 10),
             },
         },
     }
@@ -64,7 +64,7 @@ func (todoItem *ToDoItem) GetElementDef() htmlrender.ElementDef {
         Attributes: []htmlrender.ElementAttr{
             {
                 Name: dataTodoId,
-                Content: strconv.Itoa(todoItem.ID),
+                Content: strconv.FormatInt(todoItem.ID, 10),
             },
         },
     }

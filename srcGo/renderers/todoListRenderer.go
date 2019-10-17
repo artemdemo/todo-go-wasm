@@ -77,6 +77,11 @@ func (this *TodoListRenderer) OnDone(cb itemFuncCb) {
     this.onDoneCb = cb
 }
 
+func (this *TodoListRenderer) DeleteTodoEl(todoItem models.ToDoItem) {
+    el := this.getItemEl(todoItem)
+    el.RemoveElFromDOM()
+}
+
 func (this *TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
         Tag: "div",
