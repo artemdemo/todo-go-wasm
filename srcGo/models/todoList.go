@@ -30,7 +30,7 @@ func (todoList *ToDoList) AddTodoItem(title string, done bool) *ToDoItem {
     return &todoItem
 }
 
-func (todoList *ToDoList) GetItemsJson() interface{} {
+func (todoList *ToDoList) GetListJson() interface{} {
     result, err := json.Marshal(todoList.items)
 
     if err != nil {

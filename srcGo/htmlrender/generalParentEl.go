@@ -1,7 +1,6 @@
 package htmlrender
 
 import (
-    "fmt"
     "strings"
     "syscall/js"
 )
@@ -48,7 +47,7 @@ func (genParEl *GeneralParentEl) AppendChild(child interface{}) {
 ////
 
 func (genParEl *GeneralParentEl) RemoveElFromDOM() {
-    fmt.Println("removing...")
+    genParEl.el.Call("remove")
 }
 
 func (genParEl *GeneralParentEl) AddEventListener(evtType string, cb func(evt *Event)) {
