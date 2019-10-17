@@ -103,7 +103,7 @@ func (this *TodoListRenderer) RenderTodoList(todoList models.ToDoList) {
     )
 }
 
-func (this *TodoListRenderer) AppendTodoItem(todoItem *models.ToDoItem) {
+func (this *TodoListRenderer) AppendTodoEl(todoItem *models.ToDoItem) {
     this.todoListParentEl.AppendChild(
         todoItem.GetElementDef(),
     )

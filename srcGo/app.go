@@ -24,7 +24,7 @@ func addTodo(title string) {
         title,
         false,
     )
-    todoListRenderer.AppendTodoItem(toDoItem)
+    todoListRenderer.AppendTodoEl(toDoItem)
 }
 
 func deleteTodo(todoId int64) {
