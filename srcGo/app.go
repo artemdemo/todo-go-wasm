@@ -7,7 +7,7 @@ import (
     "fmt"
 )
 
-var toDoList = models.TodoList{}
+var todoList = models.TodoList{}
 var form = models.Form{}
 
 var todoListRenderer *renderers.TodoListRenderer
@@ -15,12 +15,12 @@ var formRenderer *renderers.FormRenderer
 var loggerRenderer *renderers.LoggerRenderer
 
 func initTodoList() {
-    toDoList.AddTodoItem("First title", false)
-    toDoList.AddTodoItem("Second title", true)
+    todoList.AddTodoItem("First title", false)
+    todoList.AddTodoItem("Second title", true)
 }
 
 func addTodo(title string) {
-    toDoItem := toDoList.AddTodoItem(
+    toDoItem := todoList.AddTodoItem(
         title,
         false,
     )
@@ -29,7 +29,7 @@ func addTodo(title string) {
 
 func deleteTodo(todoId int64) {
     fmt.Println("deleteTodo", todoId)
-    deletedTodo, ok := toDoList.DeleteTodoById(todoId)
+    deletedTodo, ok := todoList.DeleteTodoById(todoId)
     if ok {
         todoListRenderer.DeleteTodoEl(*deletedTodo)
     }
@@ -37,11 +37,11 @@ func deleteTodo(todoId int64) {
 
 func toggleDone(todoId int64) {
     fmt.Println("doneTodo", todoId)
-    if todoEl, _, ok := toDoList.GetTodoById(todoId); ok {
+    if todoEl, _, ok := todoList.GetTodoById(todoId); ok {
         todoEl.SetDone(!todoEl.GetDone())
         todoListRenderer.UpdateTodo(*todoEl)
     }
-    fmt.Println(toDoList.GetListJson())
+    fmt.Println(todoList.GetListJson())
 }
 
 func registerCallbacks() {
@@ -79,7 +79,7 @@ func renderForm() {
 func renderTodoList() {
     fmt.Println("-> renderTodoList()")
     todoListRenderer = renderers.NewTodoListRender()
-    todoListRenderer.RenderTodoList(toDoList)
+    todoListRenderer.RenderTodoList(todoList)
 }
 
 func renderLogger() {
