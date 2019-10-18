@@ -31,7 +31,13 @@ func (todoList *ToDoList) AddTodoItem(title string, done bool) *TodoItem {
 }
 
 func (todoList *ToDoList) GetListJson() interface{} {
-    result, err := json.Marshal(todoList.items)
+    var itemsList []TodoItemJson
+
+    for _, item := range todoList.items {
+        itemsList = append(itemsList, NewTodoItemJson(item))
+    }
+
+    result, err := json.Marshal(itemsList)
 
     if err != nil {
         fmt.Println(err)

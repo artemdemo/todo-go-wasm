@@ -10,9 +10,25 @@ import (
 )
 
 type TodoItem struct {
+    ID    int64
+    Title string
+    Done  bool
+}
+
+// `TodoItemJson` is struct that used to transform todoItem to json
+type TodoItemJson struct {
     ID    int64  `json:"id"`
     Title string `json:"title"`
     Done  bool   `json:"done"`
+}
+
+// Transform func: TodoItem -> TodoItemJson
+func NewTodoItemJson(todoItem TodoItem) TodoItemJson {
+    todoItemJson := new(TodoItemJson)
+    todoItemJson.ID = todoItem.ID
+    todoItemJson.Title = todoItem.Title
+    todoItemJson.Done = todoItem.Done
+    return *todoItemJson
 }
 
 const (
