@@ -20,26 +20,39 @@ func initTodoList() {
 }
 
 func addTodo(title string) {
-    toDoItem := todoList.AddTodoItem(
+    todoItem := todoList.AddTodoItem(
         title,
         false,
     )
-    todoListRenderer.AppendTodoEl(toDoItem)
+    loggerRenderer.AppendLogMsg(fmt.Sprintf(
+        "addTodo id=%d \"%s\"",
+        todoItem.GetId(),
+        todoItem.GetTitle(),
+    ))
+    todoListRenderer.AppendTodoEl(todoItem)
 }
 
 func deleteTodo(todoId int64) {
-    fmt.Println("deleteTodo", todoId)
     deletedTodo, ok := todoList.DeleteTodoById(todoId)
+    loggerRenderer.AppendLogMsg(fmt.Sprintf(
+        "deleteTodo id=%d \"%s\"",
+        deletedTodo.GetId(),
+        deletedTodo.GetTitle(),
+    ))
     if ok {
         todoListRenderer.DeleteTodoEl(*deletedTodo)
     }
 }
 
 func toggleDone(todoId int64) {
-    fmt.Println("doneTodo", todoId)
     if todoEl, _, ok := todoList.GetTodoById(todoId); ok {
         todoEl.SetDone(!todoEl.GetDone())
         todoListRenderer.UpdateTodo(*todoEl)
+        loggerRenderer.AppendLogMsg(fmt.Sprintf(
+            "doneTodo id=%d \"%s\"",
+            todoEl.GetId(),
+            todoEl.GetTitle(),
+        ))
     }
     fmt.Println(todoList.GetListJson())
 }
@@ -71,13 +84,13 @@ func renderApp() {
 }
 
 func renderForm() {
-    fmt.Println("-> renderForm()")
+    loggerRenderer.AppendLogMsg("-> renderForm()")
     formRenderer = renderers.NewFormRenderer()
     formRenderer.RenderForm(form)
 }
 
 func renderTodoList() {
-    fmt.Println("-> renderTodoList()")
+    loggerRenderer.AppendLogMsg("-> renderTodoList()")
     todoListRenderer = renderers.NewTodoListRender()
     todoListRenderer.RenderTodoList(todoList)
 }
@@ -93,9 +106,9 @@ func main() {
 
     initTodoList()
     renderApp()
+    renderLogger()
     renderForm()
     renderTodoList()
-    renderLogger()
 
     registerCallbacks()
 

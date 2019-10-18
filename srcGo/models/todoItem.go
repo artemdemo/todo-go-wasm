@@ -72,6 +72,10 @@ func (todoItem *TodoItem) GetTitle() string {
     return todoItem.title
 }
 
+func (todoItem *TodoItem) GetId() int64 {
+    return todoItem.id
+}
+
 func (todoItem *TodoItem) getDeleteBtn() Button {
     return Button{
         Text:      "Delete",
