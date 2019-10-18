@@ -96,7 +96,7 @@ func (this *TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
     }
 }
 
-func (this *TodoListRenderer) RenderTodoList(todoList models.ToDoList) {
+func (this *TodoListRenderer) RenderTodoList(todoList models.TodoList) {
     this.todoListParentEl.SetInnerHtml("")
     this.todoListParentEl.AppendChild(
         todoList.GetElementDef(),

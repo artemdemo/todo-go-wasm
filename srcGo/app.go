@@ -7,14 +7,14 @@ import (
     "fmt"
 )
 
-var toDoList = models.ToDoList{}
+var toDoList = models.TodoList{}
 var form = models.Form{}
 
 var todoListRenderer *renderers.TodoListRenderer
 var formRenderer *renderers.FormRenderer
 var loggerRenderer *renderers.LoggerRenderer
 
-func initToDoList() {
+func initTodoList() {
     toDoList.AddTodoItem("First title", false)
     toDoList.AddTodoItem("Second title", true)
 }
@@ -90,7 +90,7 @@ func main() {
     // Creating a channel will turn program into long-running one
     c := make(chan bool)
 
-    initToDoList()
+    initTodoList()
     renderApp()
     renderForm()
     renderTodoList()
