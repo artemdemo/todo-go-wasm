@@ -9,19 +9,19 @@ import (
 )
 
 type ToDoList struct {
-    items []ToDoItem
+    items []TodoItem
 }
 
-// AddTodoItem is adding ToDoItem to the list of items
+// AddTodoItem is adding TodoItem to the list of items
 // It will return pointer to the item.
 // This way user could add link to the DOM element later.
-func (todoList *ToDoList) AddTodoItem(title string, done bool) *ToDoItem {
+func (todoList *ToDoList) AddTodoItem(title string, done bool) *TodoItem {
     var lastTodoId int64
     if len(todoList.items) > 0 {
         lastTodo := todoList.items[len(todoList.items) - 1]
         lastTodoId = lastTodo.ID
     }
-    todoItem := ToDoItem{
+    todoItem := TodoItem{
         ID:    lastTodoId + 1,
         Title: title,
         Done:  done,
@@ -55,7 +55,7 @@ func (todoList *ToDoList) GetElementDef() htmlrender.ElementDef {
     }
 }
 
-func (todoList *ToDoList) GetTodoById(todoId int64) (*ToDoItem, int, bool) {
+func (todoList *ToDoList) GetTodoById(todoId int64) (*TodoItem, int, bool) {
     var indexResult int
     indexFound := false
     for index, item := range todoList.items {
@@ -68,18 +68,18 @@ func (todoList *ToDoList) GetTodoById(todoId int64) (*ToDoItem, int, bool) {
     if indexFound {
         return &todoList.items[indexResult], indexResult, true
     }
-    return &ToDoItem{}, 0, false
+    return &TodoItem{}, 0, false
 }
 
 // Remove `to do` from the list (by it's ID)
-func (todoList *ToDoList) DeleteTodoById(todoId int64) (*ToDoItem, bool) {
+func (todoList *ToDoList) DeleteTodoById(todoId int64) (*TodoItem, bool) {
     if deletedTodo, indexResult, ok := todoList.GetTodoById(todoId); ok {
         // Removing item from slice, while keeping the order
         // @link https://stackoverflow.com/a/57213476
-        result := make([]ToDoItem, 0)
+        result := make([]TodoItem, 0)
         result = append(result, todoList.items[:indexResult]...)
         todoList.items = append(result, todoList.items[indexResult + 1:]...)
         return deletedTodo, true
     }
-    return &ToDoItem{}, false
+    return &TodoItem{}, false
 }

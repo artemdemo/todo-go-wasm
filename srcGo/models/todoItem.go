@@ -9,7 +9,7 @@ import (
     "../services"
 )
 
-type ToDoItem struct {
+type TodoItem struct {
     ID    int64  `json:"id"`
     Title string `json:"title"`
     Done  bool   `json:"done"`
@@ -22,33 +22,41 @@ const (
     dataTodoId = "data-todo-id"
 )
 
-func (todoItem *ToDoItem) GetItemIdClassname() string {
+func (todoItem *TodoItem) GetItemIdClassname() string {
     return fmt.Sprintf("%s-%d", todoItemClassname, todoItem.ID)
 }
 
-func (todoItem *ToDoItem) GetTodoItemDeleteClassname() string {
+func (todoItem *TodoItem) GetTodoItemDeleteClassname() string {
     return todoItemDeleteClassname
 }
 
-func (todoItem *ToDoItem) GetTodoItemDoneClassname() string {
+func (todoItem *TodoItem) GetTodoItemDoneClassname() string {
     return todoItemDoneClassname
 }
 
-func (todoItem * ToDoItem) GetTodoIdFromEl(el js.Value) int64 {
+func (todoItem * TodoItem) GetTodoIdFromEl(el js.Value) int64 {
     todoIdStr := el.Get("dataset").Get("todoId").String()
     todoId, _ := strconv.ParseInt(todoIdStr, 10, 64)
     return todoId
 }
 
-func (todoItem *ToDoItem) GetDone() bool {
+func (todoItem *TodoItem) GetDone() bool {
     return todoItem.Done
 }
 
-func (todoItem *ToDoItem) SetDone(done bool) {
-    todoItem.Done = done
+func (todoItem *TodoItem) UpdateItem(newTodoItem TodoItem) {
+    todoItem.Title = newTodoItem.Title
+    todoItem.Done = newTodoItem.Done
 }
 
-func (todoItem *ToDoItem) GetElementDef() htmlrender.ElementDef {
+// Clone will duplicate todoItem and return new struct
+// Currently it's simple function,
+// but the idea is that if todoItem will become more complicated the clone process could be affected as well
+func (todoItem *TodoItem) Clone() TodoItem {
+    return *todoItem
+}
+
+func (todoItem *TodoItem) GetElementDef() htmlrender.ElementDef {
     deleteBtn := Button{
         Text:      "Delete",
         BgColor:   "orange",

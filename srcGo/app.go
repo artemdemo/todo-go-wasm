@@ -38,7 +38,9 @@ func deleteTodo(todoId int64) {
 func toggleDone(todoId int64) {
     fmt.Println("doneTodo", todoId)
     if todoEl, _, ok := toDoList.GetTodoById(todoId); ok {
-        todoEl.SetDone(!todoEl.GetDone())
+        _item := todoEl.Clone()
+        _item.Done = !todoEl.Done
+        todoEl.UpdateItem(_item)
     }
     fmt.Println(toDoList.GetListJson())
 }

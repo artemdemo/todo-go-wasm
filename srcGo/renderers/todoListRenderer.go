@@ -15,7 +15,7 @@ type TodoListRenderer struct {
     onDeleteCb       itemFuncCb
     onDoneCb         itemFuncCb
     // "dummyTodoItem" will be used here to retrieve locator classnames
-    dummyTodoItem    models.ToDoItem
+    dummyTodoItem    models.TodoItem
 }
 
 const (
@@ -31,7 +31,7 @@ func NewTodoListRender() *TodoListRenderer {
         fmt.Printf("todoListParent is not of type *htmlrender.DomEl, got %T instead\n", todoListParent)
         panic("todoListParent is not of type *htmlrender.DomEl")
     }
-    todoListR.dummyTodoItem = models.ToDoItem{}
+    todoListR.dummyTodoItem = models.TodoItem{}
     return todoListR
 }
 
@@ -53,7 +53,7 @@ func (this *TodoListRenderer) clickOnTodoList(evt *htmlrender.Event) {
     }
 }
 
-func (this *TodoListRenderer) getItemEl(todoItem models.ToDoItem) *htmlrender.DomEl {
+func (this *TodoListRenderer) getItemEl(todoItem models.TodoItem) *htmlrender.DomEl {
     el := this.todoListParentEl.GetFirstElementByClass(
         todoItem.GetItemIdClassname(),
     )
@@ -77,10 +77,14 @@ func (this *TodoListRenderer) OnDone(cb itemFuncCb) {
     this.onDoneCb = cb
 }
 
-func (this *TodoListRenderer) DeleteTodoEl(todoItem models.ToDoItem) {
+func (this *TodoListRenderer) DeleteTodoEl(todoItem models.TodoItem) {
     el := this.getItemEl(todoItem)
     el.RemoveElFromDOM()
 }
+
+// Update existing todoItem
+// `todoItem` prop should have same ID as the one that in the list
+func (this *TodoListRenderer) UpdateTodo(todoItem models.TodoItem) {}
 
 func (this *TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
@@ -103,7 +107,7 @@ func (this *TodoListRenderer) RenderTodoList(todoList models.ToDoList) {
     )
 }
 
-func (this *TodoListRenderer) AppendTodoEl(todoItem *models.ToDoItem) {
+func (this *TodoListRenderer) AppendTodoEl(todoItem *models.TodoItem) {
     this.todoListParentEl.AppendChild(
         todoItem.GetElementDef(),
     )
