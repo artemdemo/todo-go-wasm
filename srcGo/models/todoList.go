@@ -19,12 +19,12 @@ func (todoList *ToDoList) AddTodoItem(title string, done bool) *TodoItem {
     var lastTodoId int64
     if len(todoList.items) > 0 {
         lastTodo := todoList.items[len(todoList.items) - 1]
-        lastTodoId = lastTodo.ID
+        lastTodoId = lastTodo.id
     }
     todoItem := TodoItem{
-        ID:    lastTodoId + 1,
-        Title: title,
-        Done:  done,
+        id:    lastTodoId + 1,
+        title: title,
+        done:  done,
     }
     todoList.items = append(todoList.items, todoItem)
     return &todoItem
@@ -65,7 +65,7 @@ func (todoList *ToDoList) GetTodoById(todoId int64) (*TodoItem, int, bool) {
     var indexResult int
     indexFound := false
     for index, item := range todoList.items {
-        if item.ID == todoId {
+        if item.id == todoId {
             indexResult = index
             indexFound = true
             break

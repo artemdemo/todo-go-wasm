@@ -10,9 +10,9 @@ import (
 )
 
 type TodoItem struct {
-    ID    int64
-    Title string
-    Done  bool
+    id    int64
+    title string
+    done  bool
 }
 
 // `TodoItemJson` is struct that used to transform todoItem to json
@@ -25,9 +25,9 @@ type TodoItemJson struct {
 // Transform func: TodoItem -> TodoItemJson
 func NewTodoItemJson(todoItem TodoItem) TodoItemJson {
     todoItemJson := new(TodoItemJson)
-    todoItemJson.ID = todoItem.ID
-    todoItemJson.Title = todoItem.Title
-    todoItemJson.Done = todoItem.Done
+    todoItemJson.ID = todoItem.id
+    todoItemJson.Title = todoItem.title
+    todoItemJson.Done = todoItem.done
     return *todoItemJson
 }
 
@@ -39,7 +39,7 @@ const (
 )
 
 func (todoItem *TodoItem) GetItemIdClassname() string {
-    return fmt.Sprintf("%s-%d", todoItemClassname, todoItem.ID)
+    return fmt.Sprintf("%s-%d", todoItemClassname, todoItem.id)
 }
 
 func (todoItem *TodoItem) GetTodoItemDeleteClassname() string {
@@ -56,20 +56,20 @@ func (todoItem * TodoItem) GetTodoIdFromEl(el js.Value) int64 {
     return todoId
 }
 
+func (todoItem *TodoItem) SetDone(done bool) {
+    todoItem.done = done
+}
+
 func (todoItem *TodoItem) GetDone() bool {
-    return todoItem.Done
+    return todoItem.done
 }
 
-func (todoItem *TodoItem) UpdateItem(newTodoItem TodoItem) {
-    todoItem.Title = newTodoItem.Title
-    todoItem.Done = newTodoItem.Done
+func (todoItem *TodoItem) SetTitle(title string) {
+    todoItem.title = title
 }
 
-// Clone will duplicate todoItem and return new struct
-// Currently it's simple function,
-// but the idea is that if todoItem will become more complicated the clone process could be affected as well
-func (todoItem *TodoItem) Clone() TodoItem {
-    return *todoItem
+func (todoItem *TodoItem) GetTitle() string {
+    return todoItem.title
 }
 
 func (todoItem *TodoItem) GetElementDef() htmlrender.ElementDef {
@@ -84,7 +84,7 @@ func (todoItem *TodoItem) GetElementDef() htmlrender.ElementDef {
         Attributes: []htmlrender.ElementAttr{
             {
                 Name: dataTodoId,
-                Content: strconv.FormatInt(todoItem.ID, 10),
+                Content: strconv.FormatInt(todoItem.id, 10),
             },
         },
     }
@@ -96,7 +96,7 @@ func (todoItem *TodoItem) GetElementDef() htmlrender.ElementDef {
         Attributes: []htmlrender.ElementAttr{
             {
                 Name: dataTodoId,
-                Content: strconv.FormatInt(todoItem.ID, 10),
+                Content: strconv.FormatInt(todoItem.id, 10),
             },
         },
     }
@@ -110,7 +110,7 @@ func (todoItem *TodoItem) GetElementDef() htmlrender.ElementDef {
         Children: []htmlrender.ElementDef{
             {
                 Tag: "span",
-                InnerText: todoItem.Title,
+                InnerText: todoItem.title,
             },
             {
                 Tag: "div",
