@@ -84,7 +84,10 @@ func (this *TodoListRenderer) DeleteTodoEl(todoItem models.TodoItem) {
 
 // Update existing todoItem
 // `todoItem` prop should have same ID as the one that in the list
-func (this *TodoListRenderer) UpdateTodo(todoItem models.TodoItem) {}
+func (this *TodoListRenderer) UpdateTodo(todoItem models.TodoItem) {
+    oldTodo := this.getItemEl(todoItem)
+    oldTodo.ReplaceInDOM(todoItem.GetElementDef())
+}
 
 func (this *TodoListRenderer) GetBaseElDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{

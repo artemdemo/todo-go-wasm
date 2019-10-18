@@ -39,6 +39,7 @@ func toggleDone(todoId int64) {
     fmt.Println("doneTodo", todoId)
     if todoEl, _, ok := toDoList.GetTodoById(todoId); ok {
         todoEl.SetDone(!todoEl.GetDone())
+        todoListRenderer.UpdateTodo(*todoEl)
     }
     fmt.Println(toDoList.GetListJson())
 }

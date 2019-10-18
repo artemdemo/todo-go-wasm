@@ -72,8 +72,8 @@ func (todoItem *TodoItem) GetTitle() string {
     return todoItem.title
 }
 
-func (todoItem *TodoItem) GetElementDef() htmlrender.ElementDef {
-    deleteBtn := Button{
+func (todoItem *TodoItem) getDeleteBtn() Button {
+    return Button{
         Text:      "Delete",
         BgColor:   "orange",
         Size:       ButtonSizes.XS,
@@ -88,8 +88,17 @@ func (todoItem *TodoItem) GetElementDef() htmlrender.ElementDef {
             },
         },
     }
-    doneBtn := Button{
-        Text:       "Done",
+}
+
+func (todoItem *TodoItem) getDoneBtn() Button {
+    var text string
+    if todoItem.done {
+        text = "Undone"
+    } else {
+        text = "Done"
+    }
+    return Button{
+        Text:       text,
         BgColor:    "green",
         Size:       ButtonSizes.XS,
         ClassName:  todoItemDoneClassname,
@@ -100,6 +109,12 @@ func (todoItem *TodoItem) GetElementDef() htmlrender.ElementDef {
             },
         },
     }
+}
+
+func (todoItem *TodoItem) GetElementDef() htmlrender.ElementDef {
+    deleteBtn := todoItem.getDeleteBtn()
+    doneBtn := todoItem.getDoneBtn()
+
     return htmlrender.ElementDef{
         Tag: "div",
         ClassName: services.Classnames(
@@ -110,6 +125,9 @@ func (todoItem *TodoItem) GetElementDef() htmlrender.ElementDef {
         Children: []htmlrender.ElementDef{
             {
                 Tag: "span",
+                ClassName: services.Classnames(map[string]bool{
+                    "line-through": todoItem.done,
+                }),
                 InnerText: todoItem.title,
             },
             {
