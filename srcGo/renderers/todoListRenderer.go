@@ -77,13 +77,13 @@ func (this *TodoListRenderer) OnDone(cb itemFuncCb) {
     this.onDoneCb = cb
 }
 
+// Will remove element from the DOM
 func (this *TodoListRenderer) DeleteTodoEl(todoItem models.TodoItem) {
     el := this.getItemEl(todoItem)
     el.RemoveElFromDOM()
 }
 
-// Update existing todoItem
-// `todoItem` prop should have same ID as the one that in the list
+// Will rerender element in the DOM
 func (this *TodoListRenderer) UpdateTodo(todoItem models.TodoItem) {
     oldTodo := this.getItemEl(todoItem)
     oldTodo.ReplaceInDOM(todoItem.GetElementDef())

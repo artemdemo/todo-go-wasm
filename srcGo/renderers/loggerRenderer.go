@@ -1,9 +1,10 @@
 package renderers
 
 import (
+    "fmt"
+
     "../htmlrender"
     "../services"
-    "fmt"
 )
 
 type LoggerRenderer struct {

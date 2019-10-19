@@ -1,10 +1,11 @@
 package main
 
 import (
+    "fmt"
+
     "./htmlrender"
     "./models"
     "./renderers"
-    "fmt"
 )
 
 var todoList = models.TodoList{}

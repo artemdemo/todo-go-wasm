@@ -1,9 +1,10 @@
 package renderers
 
 import (
+    "fmt"
+
     "../htmlrender"
     "../models"
-    "fmt"
 )
 
 type submitCb func(title string)

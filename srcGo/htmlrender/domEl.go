@@ -1,7 +1,6 @@
 package htmlrender
 
 type DomEl struct {
-    // GeneralEl
     GeneralParentEl
 }
 
