@@ -35,7 +35,7 @@ module.exports = (options) => {
             chunkFilename: options.isProduction ?
                 './[id].chunk-[chunkhash].js' :
                 './[id].chunk.js',
-            publicPath: '/',
+            publicPath: '',
         },
         resolve: {
             extensions: ['.js', '.ts'],
