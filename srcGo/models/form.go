@@ -22,9 +22,9 @@ func (form *Form) GetTodoTitleInputClassname() string {
 
 func (form *Form) GetElementDef() htmlrender.ElementDef {
     addTodoBtn := Button{
-       Text:       "Add ToDo",
-       BgColor:    "blue",
-       ClassName:  addTodoButtonClassname,
+       text:       "Add ToDo",
+       bgColor:    "blue",
+       className:  addTodoButtonClassname,
     }
     return htmlrender.ElementDef{
         Tag: "div",

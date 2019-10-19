@@ -78,14 +78,14 @@ func (todoItem *TodoItem) GetId() int64 {
 
 func (todoItem *TodoItem) getDeleteBtn() Button {
     return Button{
-        Text:      "Delete",
-        BgColor:   "orange",
-        Size:       ButtonSizes.XS,
-        ClassName: services.Classnames(
+        text:      "Delete",
+        bgColor:   "orange",
+        size:       ButtonSizes.XS,
+        className: services.Classnames(
             "mr-1",
             todoItemDeleteClassname,
         ),
-        Attributes: []htmlrender.ElementAttr{
+        attributes: []htmlrender.ElementAttr{
             {
                 Name: dataTodoId,
                 Content: strconv.FormatInt(todoItem.id, 10),
@@ -102,11 +102,11 @@ func (todoItem *TodoItem) getDoneBtn() Button {
         text = "Done"
     }
     return Button{
-        Text:       text,
-        BgColor:    "green",
-        Size:       ButtonSizes.XS,
-        ClassName:  todoItemDoneClassname,
-        Attributes: []htmlrender.ElementAttr{
+        text:       text,
+        bgColor:    "green",
+        size:       ButtonSizes.XS,
+        className:  todoItemDoneClassname,
+        attributes: []htmlrender.ElementAttr{
             {
                 Name: dataTodoId,
                 Content: strconv.FormatInt(todoItem.id, 10),

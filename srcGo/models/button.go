@@ -8,11 +8,11 @@ import (
 )
 
 type Button struct {
-    ClassName string
-    Text      string
-    BgColor   string
-    Size      string
-    Attributes []htmlrender.ElementAttr
+    className string
+    text      string
+    bgColor   string
+    size      string
+    attributes []htmlrender.ElementAttr
 }
 
 type buttonSizes struct {
@@ -39,7 +39,7 @@ func (button *Button) getBgColors(color string) string {
 }
 
 func (button *Button) getPadding() string {
-    switch button.Size {
+    switch button.size {
     case ButtonSizes.XS:
         return "py-1 px-2"
     default:
@@ -48,7 +48,7 @@ func (button *Button) getPadding() string {
 }
 
 func (button *Button) getTextSize() string {
-    switch button.Size {
+    switch button.size {
     case ButtonSizes.XS:
         return "text-xs"
     default:
@@ -60,15 +60,15 @@ func (button *Button) GetElementDef() htmlrender.ElementDef {
     return htmlrender.ElementDef{
         Tag:        "button",
         ClassName:  services.Classnames(
-            button.ClassName,
-            button.getBgColors(button.BgColor),
+            button.className,
+            button.getBgColors(button.bgColor),
             button.getPadding(),
             button.getTextSize(),
             "text-white",
             buttonPadding,
             buttonRounded,
         ),
-        InnerText:  button.Text,
-        Attributes: button.Attributes,
+        InnerText:  button.text,
+        Attributes: button.attributes,
     }
 }
