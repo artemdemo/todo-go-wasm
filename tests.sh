@@ -1,4 +1,4 @@
 #!/bin/sh
 
 echo "srcGo/services/*"
-go test ./services -test.v -cover
+go test ./srcGo/services -test.v -cover

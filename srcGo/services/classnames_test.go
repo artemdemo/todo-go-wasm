@@ -31,7 +31,7 @@ func TestClassnames(t *testing.T) {
         "3": true,
     })
 
-    mapOfArgs_expected := "first 3"
+    mapOfArgs_expected := "3 first"
     if mapOfArgs != mapOfArgs_expected {
         t.Errorf("Classnames() failed, expected \"%v\", got \"%v\"", mapOfArgs_expected, mapOfArgs)
     }

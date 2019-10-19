@@ -2,17 +2,26 @@ package services
 
 import (
     "fmt"
+    "sort"
     "strings"
 )
 
 func argProcessor(arg interface{}) string {
     if argMap, ok := arg.(map[string]bool); ok {
+        // Order of the keys is not constant in map.
+        // It will break tests, therefore I'm sorting it.
+        keys := make([]string, 0, len(argMap))
+        for itemKey := range argMap {
+            keys = append(keys, itemKey)
+        }
+        sort.Strings(keys)
         var classList []string
-        for className, classAllowed := range argMap {
+        for _, keyItem := range keys {
+            classAllowed := argMap[keyItem]
             if classAllowed {
                 classList = append(
                     classList,
-                    strings.Trim(className, " "),
+                    strings.Trim(keyItem, " "),
                 )
             }
         }
