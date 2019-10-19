@@ -5,15 +5,15 @@ import (
     "syscall/js"
 )
 
-type GeneralEl struct {
+type generalEl struct {
     el js.Value
 }
 
-func (genEl *GeneralEl) GetEl() js.Value {
+func (genEl *generalEl) GetEl() js.Value {
     return genEl.el
 }
 
-func (genEl *GeneralEl) AddEventListener(evtType string, cb func(evt *Event)) {
+func (genEl *generalEl) AddEventListener(evtType string, cb func(evt *Event)) {
     eventCb := func(this js.Value, args []js.Value) interface{} {
         evt := new(Event)
         evt.ev = args[0]
@@ -23,11 +23,11 @@ func (genEl *GeneralEl) AddEventListener(evtType string, cb func(evt *Event)) {
     genEl.el.Call("addEventListener", evtType, js.FuncOf(eventCb))
 }
 
-func (genEl *GeneralEl) IsDefined() bool {
+func (genEl *generalEl) IsDefined() bool {
     return genEl.el.Type() == js.TypeUndefined
 }
 
-func (genEl *GeneralEl) HasClass(className string) bool  {
+func (genEl *generalEl) HasClass(className string) bool  {
     haystack := genEl.el.Get("className").String()
     return strings.Contains(haystack, className)
 }

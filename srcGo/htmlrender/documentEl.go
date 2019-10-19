@@ -3,7 +3,7 @@ package htmlrender
 import "syscall/js"
 
 type documentEl struct {
-    GeneralParentEl
+    generalParentEl
 }
 
 func NewDocumentEl() *documentEl {

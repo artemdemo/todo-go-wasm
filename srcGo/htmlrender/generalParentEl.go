@@ -5,33 +5,33 @@ import (
     "syscall/js"
 )
 
-type GeneralParentEl struct {
+type generalParentEl struct {
     el js.Value
 }
 
-func (genParEl *GeneralParentEl) GetEl() js.Value {
+func (genParEl *generalParentEl) GetEl() js.Value {
     return genParEl.el
 }
 
-func (genParEl *GeneralParentEl) SetInnerText(text string) {
+func (genParEl *generalParentEl) SetInnerText(text string) {
     genParEl.el.Set("innerText", text)
 }
 
-func (genParEl *GeneralParentEl) SetInnerHtml(html string) {
+func (genParEl *generalParentEl) SetInnerHtml(html string) {
     genParEl.el.Set("innerHTML", html)
 }
 
-func (genParEl *GeneralParentEl) GetElementById(id string) interface{} {
+func (genParEl *generalParentEl) GetElementById(id string) interface{} {
     el := genParEl.el.Call("getElementById", id)
     return wrapEl(el)
 }
 
-func (genParEl *GeneralParentEl) GetFirstElementByClass(className string) interface{} {
+func (genParEl *generalParentEl) GetFirstElementByClass(className string) interface{} {
     el := genParEl.el.Call("getElementsByClassName", className).Index(0)
     return wrapEl(el)
 }
 
-func (genParEl *GeneralParentEl) AppendChild(child interface{}) {
+func (genParEl *generalParentEl) AppendChild(child interface{}) {
     switch childEl := child.(type) {
     case DomEl:
     case *DomEl:
@@ -44,7 +44,7 @@ func (genParEl *GeneralParentEl) AppendChild(child interface{}) {
     }
 }
 
-func (genParEl *GeneralParentEl) ReplaceInDOM(newEl interface{}) {
+func (genParEl *generalParentEl) ReplaceInDOM(newEl interface{}) {
     switch _el := newEl.(type) {
     case DomEl:
     case *DomEl:
@@ -59,11 +59,11 @@ func (genParEl *GeneralParentEl) ReplaceInDOM(newEl interface{}) {
 
 ////
 
-func (genParEl *GeneralParentEl) RemoveElFromDOM() {
+func (genParEl *generalParentEl) RemoveElFromDOM() {
     genParEl.el.Call("remove")
 }
 
-func (genParEl *GeneralParentEl) AddEventListener(evtType string, cb func(evt *Event)) {
+func (genParEl *generalParentEl) AddEventListener(evtType string, cb func(evt *Event)) {
     eventCb := func(this js.Value, args []js.Value) interface{} {
         evt := new(Event)
         evt.ev = args[0]
@@ -73,11 +73,11 @@ func (genParEl *GeneralParentEl) AddEventListener(evtType string, cb func(evt *E
     genParEl.el.Call("addEventListener", evtType, js.FuncOf(eventCb))
 }
 
-func (genParEl *GeneralParentEl) IsDefined() bool {
+func (genParEl *generalParentEl) IsDefined() bool {
     return genParEl.el.Type() != js.TypeUndefined
 }
 
-func (genParEl *GeneralParentEl) HasClass(className string) bool  {
+func (genParEl *generalParentEl) HasClass(className string) bool  {
     haystack := genParEl.el.Get("className").String()
     return strings.Contains(haystack, className)
 }

@@ -1,7 +1,7 @@
 package htmlrender
 
 type DomEl struct {
-    GeneralParentEl
+    generalParentEl
 }
 
 func (domEl *DomEl) SetAttribute(attrName string, value string) {
