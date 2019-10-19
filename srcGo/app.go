@@ -68,6 +68,7 @@ func renderApp() {
     fmt.Println("-> renderApp()")
     app := htmlrender.NewDocumentEl().GetElementById("app")
     if appEl, ok := app.(*htmlrender.DomEl); ok {
+        appEl.SetInnerHtml("")
         appEl.AppendChild(
             htmlrender.ElementDef{
                 Tag: "div",

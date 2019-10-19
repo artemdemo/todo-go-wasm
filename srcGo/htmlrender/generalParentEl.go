@@ -18,7 +18,7 @@ func (genParEl *GeneralParentEl) SetInnerText(text string) {
 }
 
 func (genParEl *GeneralParentEl) SetInnerHtml(html string) {
-    genParEl.el.Set("innerHtml", html)
+    genParEl.el.Set("innerHTML", html)
 }
 
 func (genParEl *GeneralParentEl) GetElementById(id string) interface{} {
