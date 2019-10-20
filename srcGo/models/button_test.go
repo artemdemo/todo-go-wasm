@@ -1,12 +1,7 @@
 package models
 
 import (
-    _ "fmt"
-    _ "syscall/js"
     "testing"
-
-    _ "../htmlrender"
-    _ "../services"
 )
 
 func TestGetElementDef(t *testing.T) {
@@ -19,7 +14,7 @@ func TestGetElementDef(t *testing.T) {
     }
     emptyBtn_def := emptyBtn.GetElementDef()
 
-    if emptyBtn_def.Tag != "" {
-        t.Errorf("GetElementDef() failed, expected an empty string, got \"%v\"", emptyBtn_def.Tag)
+    if emptyBtn_def.Tag != "button" {
+        t.Errorf("GetElementDef() failed, expected \"button\", got \"%v\"", emptyBtn_def.Tag)
     }
 }
