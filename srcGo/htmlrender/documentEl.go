@@ -14,6 +14,9 @@ func NewDocumentEl() *documentEl {
 
 func (docEl *documentEl) CreateElement(tagName string) *DomEl {
     domEl := new(DomEl)
+    if !docEl.IsDefined() {
+        panic("document element is not defined")
+    }
     domEl.el = docEl.el.Call("createElement", tagName)
     return domEl
 }
