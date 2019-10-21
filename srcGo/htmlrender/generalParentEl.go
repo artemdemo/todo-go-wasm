@@ -35,28 +35,12 @@ func (genParEl *generalParentEl) GetFirstElementByClass(className string) interf
     return wrapEl(el)
 }
 
-func (genParEl *generalParentEl) AppendChild(child interface{}) {
-    switch childEl := child.(type) {
-    case DomEl:
-    case *DomEl:
-        genParEl.el.Call("appendChild", childEl.GetEl())
-    case ElementDef:
-        genParEl.el.Call("appendChild", childEl.GetEl())
-    default:
-        panic("Unknown child type")
-    }
+func (genParEl *generalParentEl) AppendChild(childEl generalElI) {
+    genParEl.el.Call("appendChild", childEl.GetEl())
 }
 
-func (genParEl *generalParentEl) ReplaceInDOM(newEl interface{}) {
-    switch _el := newEl.(type) {
-    case DomEl:
-    case *DomEl:
-        genParEl.el.Get("parentNode").Call("replaceChild", _el.GetEl(), genParEl.el)
-    case ElementDef:
-        genParEl.el.Get("parentNode").Call("replaceChild", _el.GetEl(), genParEl.el)
-    default:
-        panic("Unknown child type")
-    }
+func (genParEl *generalParentEl) ReplaceInDOM(newEl generalElI) {
+    genParEl.el.Get("parentNode").Call("replaceChild", newEl.GetEl(), genParEl.el)
 }
 
 ////

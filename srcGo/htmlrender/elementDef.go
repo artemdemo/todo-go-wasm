@@ -57,7 +57,7 @@ func createElement(elDef ElementDef) *DomEl {
     return el
 }
 
-func (elementDef *ElementDef) GetEl() js.Value {
-    el := createElement(*elementDef)
+func (elementDef ElementDef) GetEl() js.Value {
+    el := createElement(elementDef)
     return el.GetEl()
 }
