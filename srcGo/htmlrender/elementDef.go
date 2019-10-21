@@ -61,3 +61,11 @@ func (elementDef ElementDef) GetEl() js.Value {
     el := createElement(elementDef)
     return el.GetEl()
 }
+
+// Get html representation of defined element
+func (elementDef ElementDef) GetHTML() string {
+    // I'm creating container, in order to capture html of the whole element
+    elContainer := documentEL.CreateElement("div")
+    elContainer.AppendChild(elementDef)
+    return elContainer.GetEl().Get("innerHTML").String()
+}
