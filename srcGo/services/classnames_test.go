@@ -4,7 +4,7 @@ import (
     "testing"
 )
 
-func TestClassnames(t *testing.T) {
+func Test_Classnames(t *testing.T) {
     // 1 test
     emptyResult := Classnames()
 

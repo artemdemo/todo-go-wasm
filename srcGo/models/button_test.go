@@ -4,7 +4,7 @@ import (
     "testing"
 )
 
-func TestGetElementDef(t *testing.T) {
+func Test_GetElementDef(t *testing.T) {
     emptyBtn := Button{
         className:  "",
         text:       "",
