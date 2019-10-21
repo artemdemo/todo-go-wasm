@@ -31,11 +31,14 @@ const (
 )
 
 func (button *Button) getBgColors(color string) string {
-    return fmt.Sprintf(
-        "bg-%s-500 hover:bg-%s-600",
-        color,
-        color,
-    )
+    if color != "" {
+        return fmt.Sprintf(
+            "bg-%s-500 hover:bg-%s-600",
+            color,
+            color,
+        )
+    }
+    return ""
 }
 
 func (button *Button) getPadding() string {
