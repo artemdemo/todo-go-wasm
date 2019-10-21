@@ -24,10 +24,13 @@ func argProcessor(arg interface{}) string {
 func Classnames(args ...interface{}) string {
     var classList []string
     for _, arg := range args {
-        classList = append(
-            classList,
-            argProcessor(arg),
-        )
+        className := argProcessor(arg)
+        if className != "" {
+            classList = append(
+                classList,
+                className,
+            )
+        }
     }
     return strings.Join(classList, " ")
 }

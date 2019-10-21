@@ -41,4 +41,16 @@ func Test_Classnames(t *testing.T) {
     if strings.Join(mapOfArgs_list, " ") != mapOfArgs_expected {
         t.Fatalf("Classnames() failed, expected \"%v\", got \"%v\"", mapOfArgs_expected, mapOfArgs)
     }
+
+    // 4 test
+    listOfArgsEmpty := Classnames(
+        "first",
+        "",
+        "3",
+    )
+
+    listOfArgsEmpty_expected := "first 3"
+    if listOfArgsEmpty != listOfArgsEmpty_expected {
+        t.Fatalf("Classnames() failed, expected \"%v\", got \"%v\"", listOfArgsEmpty_expected, listOfArgsEmpty)
+    }
 }
