@@ -11,7 +11,7 @@ func Test_Classnames(t *testing.T) {
     emptyResult := Classnames()
 
     if emptyResult != "" {
-        t.Errorf("Classnames() failed, expected an empty string, got \"%v\"", emptyResult)
+        t.Fatalf("Classnames() failed, expected an empty string, got \"%v\"", emptyResult)
     }
 
     // 2 test
@@ -23,7 +23,7 @@ func Test_Classnames(t *testing.T) {
 
     listOfArgs_expected := "first second 3"
     if listOfArgs != listOfArgs_expected {
-        t.Errorf("Classnames() failed, expected \"%v\", got \"%v\"", listOfArgs_expected, listOfArgs)
+        t.Fatalf("Classnames() failed, expected \"%v\", got \"%v\"", listOfArgs_expected, listOfArgs)
     }
 
     // 3 test
@@ -39,6 +39,6 @@ func Test_Classnames(t *testing.T) {
 
     mapOfArgs_expected := "3 first"
     if strings.Join(mapOfArgs_list, " ") != mapOfArgs_expected {
-        t.Errorf("Classnames() failed, expected \"%v\", got \"%v\"", mapOfArgs_expected, mapOfArgs)
+        t.Fatalf("Classnames() failed, expected \"%v\", got \"%v\"", mapOfArgs_expected, mapOfArgs)
     }
 }
