@@ -9,10 +9,6 @@ type generalParentEl struct {
     el js.Value
 }
 
-type generalElI interface {
-    GetEl() js.Value
-}
-
 func (genParEl *generalParentEl) GetEl() js.Value {
     return genParEl.el
 }
