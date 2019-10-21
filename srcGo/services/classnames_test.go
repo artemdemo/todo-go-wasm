@@ -1,6 +1,8 @@
 package services
 
 import (
+    "sort"
+    "strings"
     "testing"
 )
 
@@ -30,9 +32,13 @@ func Test_Classnames(t *testing.T) {
         "second": false,
         "3": true,
     })
+    // map[] is not persisting order of the keys.
+    // Therefore I'll need to sort it in order to test be consistent in results
+    mapOfArgs_list := strings.Split(mapOfArgs, " ")
+    sort.Strings(mapOfArgs_list)
 
     mapOfArgs_expected := "3 first"
-    if mapOfArgs != mapOfArgs_expected {
+    if strings.Join(mapOfArgs_list, " ") != mapOfArgs_expected {
         t.Errorf("Classnames() failed, expected \"%v\", got \"%v\"", mapOfArgs_expected, mapOfArgs)
     }
 }
