@@ -33,3 +33,11 @@ https://github.com/golang/go/wiki/Configuring-GoLand-for-WebAssembly
 **How to install Go**
 
 https://golang.org/doc/install
+
+**How to test Go**
+
+* https://github.com/golang/go/issues/25911
+  * You need `go_js_wasm_exec` in your `$PATH`, and you need nodejs installed to run the "node" binary.
+
+* https://stackoverflow.com/a/54919732
+  * `GOOS=js GOARCH=wasm go test -exec="node $(go env GOROOT)/misc/wasm/wasm_exec"`

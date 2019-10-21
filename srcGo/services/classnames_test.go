@@ -1,15 +1,17 @@
 package services
 
 import (
+    "sort"
+    "strings"
     "testing"
 )
 
-func TestClassnames(t *testing.T) {
+func Test_Classnames(t *testing.T) {
     // 1 test
     emptyResult := Classnames()
 
     if emptyResult != "" {
-        t.Errorf("Classnames() failed, expected an empty string, got \"%v\"", emptyResult)
+        t.Fatalf("Classnames() failed, expected an empty string, got \"%v\"", emptyResult)
     }
 
     // 2 test
@@ -21,7 +23,7 @@ func TestClassnames(t *testing.T) {
 
     listOfArgs_expected := "first second 3"
     if listOfArgs != listOfArgs_expected {
-        t.Errorf("Classnames() failed, expected \"%v\", got \"%v\"", listOfArgs_expected, listOfArgs)
+        t.Fatalf("Classnames() failed, expected \"%v\", got \"%v\"", listOfArgs_expected, listOfArgs)
     }
 
     // 3 test
@@ -30,9 +32,25 @@ func TestClassnames(t *testing.T) {
         "second": false,
         "3": true,
     })
+    // map[] is not persisting order of the keys.
+    // Therefore I'll need to sort it in order to test be consistent in results
+    mapOfArgs_list := strings.Split(mapOfArgs, " ")
+    sort.Strings(mapOfArgs_list)
 
-    mapOfArgs_expected := "first 3"
-    if mapOfArgs != mapOfArgs_expected {
-        t.Errorf("Classnames() failed, expected \"%v\", got \"%v\"", mapOfArgs_expected, mapOfArgs)
+    mapOfArgs_expected := "3 first"
+    if strings.Join(mapOfArgs_list, " ") != mapOfArgs_expected {
+        t.Fatalf("Classnames() failed, expected \"%v\", got \"%v\"", mapOfArgs_expected, mapOfArgs)
+    }
+
+    // 4 test
+    listOfArgsEmpty := Classnames(
+        "first",
+        "",
+        "3",
+    )
+
+    listOfArgsEmpty_expected := "first 3"
+    if listOfArgsEmpty != listOfArgsEmpty_expected {
+        t.Fatalf("Classnames() failed, expected \"%v\", got \"%v\"", listOfArgsEmpty_expected, listOfArgsEmpty)
     }
 }
